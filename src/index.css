@@ -1,0 +1,75 @@
+/* App.css or index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.mantine-Stepper-step {
+  all: unset;
+}
+
+* {
+  font-family: "Cairo", sans-serif !important;
+}
+
+
+/* Remove scrollbar background and arrows */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background: transparent;
+  /* Remove background */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  /* No track background */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #50C5C8;
+  /* Scrollbar color */
+  border-radius: 0px;
+  border: 1px solid transparent;
+  /* Space around thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #26A69A;
+  /* Hover effect */
+}
+
+/* Hide scrollbar buttons (arrows) */
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Hide scrollbars completely on mobile devices */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  /* For Firefox */
+  * {
+    scrollbar-width: none;
+  }
+
+  /* For IE and Edge */
+  * {
+    -ms-overflow-style: none;
+  }
+}
