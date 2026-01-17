@@ -126,7 +126,7 @@ const Dashboard = () => {
                             }}
                             tabValues={tabValues}
                             orientation={isSmallScreen ? "horizontal" : "vertical"}
-                            defaultValue={"home"}
+                            defaultValue={"services"}
                             color={"#fff"}
                             variant={"pills"}
                             isSmallScreen={isSmallScreen}

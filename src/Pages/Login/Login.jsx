@@ -36,7 +36,7 @@ const Login = () => {
             }
 
             login(result);
-            navigate('/dashboard/home');
+            navigate('/dashboard');
             showNotification.success(result?.message || 'Login successful');
 
         } catch (err) {
@@ -88,7 +88,7 @@ const Login = () => {
 
                     <Button
                         type="submit"
-                        className={`!w-full !text-center !bg-main !text-2xl !font-bold !rounded-lg !h-10 !mt-7 !text-white ${isLoadingLogin ? "!bg-subMain !cursor-not-allowed" : "!bg-main"}`}
+                        className={`!w-full !text-center !bg-main !text-2xl !font-bold !rounded-lg !h-12  !mt-7 !text-white ${isLoadingLogin ? "!bg-subMain !cursor-not-allowed" : "!bg-main"}`}
                         disabled={isLoadingLogin}
                         loading={isLoadingLogin}
                         loaderProps={{ type: "dots" }}

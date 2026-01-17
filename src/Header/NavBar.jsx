@@ -2,16 +2,24 @@ import { useState } from "react";
 import SearchInput from "../Components/SearchInput";
 import { MdOutlineLightMode, MdOutlineDarkMode, MdWavingHand } from "react-icons/md";
 import { RiLockPasswordLine, RiGlobalLine } from "react-icons/ri";
-import { ActionIcon, Tooltip, Avatar, Menu } from "@mantine/core";
+import { ActionIcon, Tooltip, Avatar, Menu, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTheme } from "../Context/ThemeContext";
 import ChangePasswordForm from "../Components/ChangePasswordForm";
+import { useLogoutMutation } from "../Service/Apis/authApi";
+import { useContext } from "react";
+import { showNotification } from "../utils/notification";
+import { AuthContext } from "../AuthContext/AuthProvider";
+
 
 const NavBar = ({ setSearchQuery, searchQuery }) => {
     // Local state for UI toggles
     const { isDarkMode, toggleTheme } = useTheme();
     const [lang, setLang] = useState('en');
     const [opened, { open, close }] = useDisclosure(false);
+    const { logout } = useContext(AuthContext);
+    const [logoutApi, { isLoading: isLogoutLoading }] = useLogoutMutation();
+
 
     // Safe handlers
     const handleSearch = (e) => {
@@ -20,6 +28,18 @@ const NavBar = ({ setSearchQuery, searchQuery }) => {
 
     const handleClear = () => {
         if (setSearchQuery) setSearchQuery("");
+    };
+
+    const handleLogout = async () => {
+        try {
+            const response = await logoutApi().unwrap();
+            console.log('Logout API call successful');
+            showNotification.success(response);
+            logout();
+        } catch (error) {
+            console.error('Logout failed:', error);
+            showNotification.error(error);
+        }
     };
 
     return (
@@ -114,7 +134,14 @@ const NavBar = ({ setSearchQuery, searchQuery }) => {
                         </div>
                     </Menu.Target>
                     <Menu.Dropdown>
-                        <Menu.Item color="red">Logout</Menu.Item>
+                        <Menu.Item
+                            color="red"
+                            onClick={handleLogout}
+                            disabled={isLogoutLoading}
+                            leftSection={isLogoutLoading ? <Loader size={14} color="red" /> : null}
+                        >
+                            {isLogoutLoading ? 'Logging out...' : 'Logout'}
+                        </Menu.Item>
                     </Menu.Dropdown>
                 </Menu>
             </div>

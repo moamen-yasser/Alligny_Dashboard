@@ -5,7 +5,7 @@ import StepperForm from './StepperForm';
 
 // Breadcrumb items
 const breadcrumbItems = [
-    { label: "Home", link: "/dashboard/home" },
+    { label: "Home", link: "/dashboard" },
     { label: "Upload", link: "/dashboard/upload" },
 ];
 

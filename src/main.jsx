@@ -15,7 +15,12 @@ import { Notifications } from '@mantine/notifications';
 const Root = () => {
   const { isDarkMode } = useTheme();
   return (
-    <MantineProvider forceColorScheme={isDarkMode ? 'dark' : 'light'} withGlobalStyles withNormalizeCSS>
+    <MantineProvider
+      forceColorScheme={isDarkMode ? 'dark' : 'light'}
+      theme={{ fontFamily: 'Cairo, sans-serif' }}
+      withGlobalStyles
+      withNormalizeCSS
+    >
       <Notifications position="top-right" />
       <App />
     </MantineProvider>

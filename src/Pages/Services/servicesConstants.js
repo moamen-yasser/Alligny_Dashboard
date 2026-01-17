@@ -1,6 +1,6 @@
 export const HEADER_COLUMNS = [
-    "Provider Name",
-    "Provider Email",
+    "Provider Info",
+    "Provider Phone",
     "Service Name",
     "Created At",
     "Status",

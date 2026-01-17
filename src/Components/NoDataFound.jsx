@@ -24,7 +24,7 @@ export default function NoDataFound({ home }) {
                     We couldn't find any matching records. Try adjusting your search or filters.
                 </Text>
                 {!home && (
-                    <Link to="/dashboard/home">
+                    <Link to="/dashboard">
                         <Button
                             className={`!mt-2 !bg-textSecondColor !text-white hover:!bg-hoverColor !w-[50%] !mb-2 !rounded-lg ${isMobile ? '!py-1 !text-sm' : '!py-1.5'}`}
                         >

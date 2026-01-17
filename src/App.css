@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
-
-:root{
+:root {
     --shadow: 0px 5px 20px 0px rgb(96 67 96 / 10%);
 }
 
@@ -10,6 +8,7 @@
     box-shadow: var(--shadow) !important;
 }
 
-.m_8fb7ebe7:focus, .m_8fb7ebe7:focus-within {
+.m_8fb7ebe7:focus,
+.m_8fb7ebe7:focus-within {
     --input-bd: #50C5C8 !important;
 }
