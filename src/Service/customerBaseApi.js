@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL
+const customerBaseUrl = import.meta.env.VITE_CUSTOMER_API_BASE_URL;
 
-const baseQuery = fetchBaseQuery({
-    baseUrl,
+const customerBaseQuery = fetchBaseQuery({
+    baseUrl: customerBaseUrl,
     prepareHeaders: (headers) => {
         const token = Cookies.get('token');
         if (token) {
@@ -14,8 +14,8 @@ const baseQuery = fetchBaseQuery({
     },
 });
 
-const baseQueryWithReauth = async (args, api, extraOptions) => {
-    let result = await baseQuery(args, api, extraOptions);
+const customerBaseQueryWithReauth = async (args, api, extraOptions) => {
+    let result = await customerBaseQuery(args, api, extraOptions);
 
     if (result.error && result.error.status === 401) {
         // Reset cookies
@@ -32,9 +32,9 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     return result;
 };
 
-export const baseApi = createApi({
-    reducerPath: 'api',
-    baseQuery: baseQueryWithReauth,
-    tagTypes: ['Auth', 'AllServices', 'AllVideos'],
+export const customerBaseApi = createApi({
+    reducerPath: 'customerApi',
+    baseQuery: customerBaseQueryWithReauth,
+    tagTypes: ['AllCustomers'],
     endpoints: () => ({}),
 });

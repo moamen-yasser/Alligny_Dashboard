@@ -1,33 +1,35 @@
-import { baseApi } from '../baseApi';
+import { customerBaseApi } from '../customerBaseApi';
 
-export const studentApi = baseApi.injectEndpoints({
+export const customerApi = customerBaseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getAllStudents: builder.query({
+        getAllCustomers: builder.query({
             query: () => ({
-                url: '/Admin/students',
+                url: '/admin/users',
                 method: 'GET',
             }),
-            providesTags: ['AllStudents'],
+            providesTags: ['AllCustomers'],
         }),
-        approveStudent: builder.mutation({
+
+        getCustomer: builder.query({
             query: ({ id }) => ({
-                url: `/admin/approve-student/${id}`,
+                url: `/admin/users/${id}`,
+                method: 'GET',
+            }),
+            providesTags: ['AllCustomers'],
+        }),
+
+        activeCustomer: builder.mutation({
+            query: ({ id }) => ({
+                url: `/admin/users/activate-subscription/${id}`,
                 method: 'POST',
             }),
-            invalidatesTags: ['ApproveStudent'],
-        }),
-        rejectStudent: builder.mutation({
-            query: ({ id }) => ({
-                url: `/admin/reject-student/${id}`,
-                method: 'POST',
-            }),
-            invalidatesTags: ['RejectStudent'],
+            invalidatesTags: ['AllCustomers'],
         }),
     }),
 });
 
-export const { 
-    useGetAllStudentsQuery, 
-    useApproveStudentMutation, 
-    useRejectStudentMutation 
-} = studentApi;
+export const {
+    useGetAllCustomersQuery,
+    useGetCustomerQuery,
+    useActiveCustomerMutation
+} = customerApi;
