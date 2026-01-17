@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { 
-  useGetAllServicesQuery, 
-  useApproveServiceMutation, 
-  useRejectServiceMutation 
+import {
+  useGetAllServicesQuery,
+  useApproveServiceMutation,
+  useRejectServiceMutation
 } from "../../Service/Apis/servicesApi";
 import { useDebounce } from "../../utils/useDebounce";
 import { useDisclosure } from "@mantine/hooks";
 import { showNotification } from "../../utils/notification";
+import { useUrlPagination } from "../../utils/useUrlPagination";
 
 export const useServices = (searchQuery) => {
   // State
-  const [activePage, setActivePage] = useState(1);
+  const [activePage, setActivePage] = useUrlPagination("page", 1);
   const [status, setStatus] = useState("All");
   const [opened, { open, close }] = useDisclosure(false);
   const [currentAction, setCurrentAction] = useState(null);
@@ -20,10 +21,10 @@ export const useServices = (searchQuery) => {
 
   // Context and API calls
   const debouncedSearch = useDebounce(searchQuery, 500);
-  
+
   const { data: allServices, isLoading } = useGetAllServicesQuery({
     PageNumber: activePage,
-    SearchQuery: debouncedSearch && debouncedSearch.trim() !== "" ? debouncedSearch : undefined,
+    search: debouncedSearch && debouncedSearch.trim() !== "" ? debouncedSearch : undefined,
     Status: status === "All" ? undefined : status,
   });
 
@@ -45,11 +46,11 @@ export const useServices = (searchQuery) => {
   const handleConfirmAction = async () => {
     const id = currentServiceId;
     const action = currentAction;
-    
+
     try {
       setLoadingServiceId(id);
       setLoadingAction(action);
-      
+
       let response;
       if (action === "approve") {
         response = await approveService({ id }).unwrap();
@@ -58,7 +59,7 @@ export const useServices = (searchQuery) => {
         response = await rejectService({ id }).unwrap();
         showNotification.success(response?.message || "Service rejected successfully");
       }
-      
+
       close();
       return response;
     } catch (error) {
@@ -74,16 +75,16 @@ export const useServices = (searchQuery) => {
 
   const getModalText = () => {
     if (currentAction === 'approve') {
-      return { 
-        title: "Approve Service", 
-        description: "Are you sure you want to approve this service?", 
-        actionText: "Approve" 
+      return {
+        title: "Approve Service",
+        description: "Are you sure you want to approve this service?",
+        actionText: "Approve"
       };
     }
-    return { 
-      title: "Reject Service", 
-      description: "Are you sure you want to reject this service?", 
-      actionText: "Reject" 
+    return {
+      title: "Reject Service",
+      description: "Are you sure you want to reject this service?",
+      actionText: "Reject"
     };
   };
 
@@ -100,11 +101,11 @@ export const useServices = (searchQuery) => {
     currentServiceId,
     loadingServiceId,
     loadingAction,
-    
+
     // Data
     allServices,
     isLoading,
-    
+
     // Handlers
     handleStatusChange,
     handleActionClick,

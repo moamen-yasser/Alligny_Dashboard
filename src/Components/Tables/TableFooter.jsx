@@ -12,7 +12,16 @@ const TableFooter = ({ activePage, setPage, total, colSpan, size = "md" }) => {
 
     const handlePageChange = (page) => {
         setPage(page);
-        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        // Find the scrollable content container (the one with overflow-y-auto)
+        const scrollContainer = document.querySelector('.overflow-y-auto');
+
+        if (scrollContainer) {
+            scrollContainer.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+            // Fallback to window scroll
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
     };
 
     return (

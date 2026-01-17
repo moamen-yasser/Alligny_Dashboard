@@ -4,7 +4,7 @@ import StudentApprove from './StudentApprove';
 
 // Breadcrumb items
 const breadcrumbItems = [
-    { label: "Home", link: "/dashboard/home" },
+    { label: "Home", link: "/dashboard" },
     { label: "Students", link: "/dashboard/student" },
 ];
 

@@ -3,13 +3,13 @@ import TableHeader from "../../Components/Tables/TableHeader";
 import TableBody from "../../Components/Tables/TableBody";
 import TableFooter from "../../Components/Tables/TableFooter";
 import Loader from "../../Components/Loader";
-import { extractDate } from "../../utils/extractDate";
 import { ConfirmModal } from "../../Components/ConfirmModal";
 import TableActions from "../../Components/Actions.jsx/index.jsx";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useServices } from "./useServices.js";
 import { HEADER_COLUMNS, STATUS_TABS } from "./servicesConstants.js";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { formatDateTime } from "../../utils/formatDateTime";
 
 const Services = () => {
     const navigate = useNavigate();
@@ -99,17 +99,40 @@ const Services = () => {
                                             key={service?._id || service?.id || index}
                                             className="h-16 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                                         >
-                                            <Table.Td className="px-4 py-2 text-slate-900 dark:text-white font-semibold">
-                                                {service?.providerName || "N/A"}
+                                            <Table.Td className="px-4 py-2">
+                                                <div className="flex flex-col gap-1">
+                                                    <Text fw={700} size="sm" className="text-slate-900 dark:text-white">
+                                                        {service?.providerName || "N/A"}
+                                                    </Text>
+                                                    <Text
+                                                        component="a"
+                                                        href={`mailto:${service?.providerEmail}`}
+                                                        size="xs"
+                                                        c="dimmed"
+                                                        className="hover:text-main hover:underline transition-colors cursor-pointer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                    >
+                                                        {service?.providerEmail || "N/A"}
+                                                    </Text>
+                                                </div>
                                             </Table.Td>
-                                            <Table.Td className="px-4 py-2 text-slate-900 dark:text-white font-semibold">
-                                                {service?.providerEmail || "N/A"}
+                                            <Table.Td className="px-4 py-2">
+                                                <Text
+                                                    component="a"
+                                                    href={`tel:${service?.providerPhoneNumber}`}
+                                                    fw={600}
+                                                    size="sm"
+                                                    className="text-slate-900 dark:text-white hover:text-main hover:underline transition-colors cursor-pointer"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                >
+                                                    {service?.providerPhoneNumber || "N/A"}
+                                                </Text>
                                             </Table.Td>
                                             <Table.Td className="px-4 py-2 text-slate-900 dark:text-white font-semibold">
                                                 {service?.name || "N/A"}
                                             </Table.Td>
                                             <Table.Td className="px-4 py-2 text-slate-900 dark:text-white font-semibold">
-                                                {extractDate(service?.dateSubmitted) || "N/A"}
+                                                {formatDateTime(service?.dateSubmitted)}
                                             </Table.Td>
                                             <Table.Td className="px-4 py-2">
                                                 <span className={`font-semibold ${service?.status === 'Approved'

@@ -12,78 +12,64 @@ const Services = lazy(() => import('../Pages/Services'));
 const ServiceDetails = lazy(() => import('../Pages/ServiceDetails'));
 const Customers = lazy(() => import('../Pages/Customers'));
 const Videos = lazy(() => import('../Pages/Videos'));
+const NotFound = lazy(() => import('../Components/NotFound/index.jsx'));
 
 export default function Routers() {
     const { isAuthenticated } = useContext(AuthContext);
 
     return (
         <Router>
-            <Routes>
-                {/* Redirect root URL to login page */}
-                <Route path="/" element={<Navigate to="/login" />} />
+            <Suspense fallback={<Loader isLoading={true} />}>
+                <Routes>
+                    {/* 
+                        Root Path Logic:
+                        Redirects to Dashboard if logged in, otherwise to Login.
+                    */}
+                    <Route
+                        path="/"
+                        element={
+                            isAuthenticated
+                                ? <Navigate to="/dashboard" replace />
+                                : <Navigate to="/login" replace />
+                        }
+                    />
 
-                {/* Login Route */}
-                <Route
-                    path="/login"
-                    element={
-                        <Suspense fallback={<Loader isLoading={true} />}>
+                    {/* Public Routes (Accessible only when logged out) */}
+                    <Route
+                        path="/login"
+                        element={
                             <PublicRoute isAuthenticated={isAuthenticated}>
                                 <Login />
                             </PublicRoute>
-                        </Suspense>
-                    }
-                />
+                        }
+                    />
 
-                {/* Dashboard Routes with Layout */}
-                <Route
-                    path="/dashboard"
-                    element={
-                        <Suspense fallback={<Loader isLoading={true} />}>
+                    {/* Protected Routes (Accessible only when logged in) */}
+                    <Route
+                        path="/dashboard"
+                        element={
                             <ProtectedRoute isAuthenticated={isAuthenticated}>
                                 <Dashboard />
                             </ProtectedRoute>
-                        </Suspense>
-                    }
-                >
-                    {/* Default redirect to services if no tab is specified */}
-                    <Route index element={<Navigate to="/dashboard/services" replace />} />
+                        }
+                    >
+                        {/* Default dashboard tab */}
+                        <Route index element={<Navigate to="/dashboard/services" replace />} />
 
-                    <Route
-                        path="services"
-                        element={
-                            <Suspense fallback={<Loader isLoading={true} />}>
-                                <Services />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="service/details"
-                        element={
-                            <Suspense fallback={<Loader isLoading={true} />}>
-                                <ServiceDetails />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="customers"
-                        element={
-                            <Suspense fallback={<Loader isLoading={true} />}>
-                                <Customers />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="videos"
-                        element={
-                            <Suspense fallback={<Loader isLoading={true} />}>
-                                <Videos />
-                            </Suspense>
-                        }
-                    />
-                    {/* Catch-all for dashboard tabs */}
-                    <Route path=":tabValue" element={<Navigate to="/dashboard/services" replace />} />
-                </Route>
-            </Routes>
+                        {/* Feature Routes */}
+                        <Route path="services" element={<Services />} />
+                        <Route path="service/details" element={<ServiceDetails />} />
+                        <Route path="customers" element={<Customers />} />
+                        <Route path="videos" element={<Videos />} />
+
+                        {/* Inner Dashboard 404 or Redirect */}
+                        <Route path="*" element={<NotFound />} />
+                    </Route>
+
+                    {/* Global catch-all: shows 404 page for unknown top-level paths */}
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </Suspense>
         </Router>
     );
 }
