@@ -21,7 +21,7 @@ const Login = () => {
         control,
         handleSubmit,
         setError,
-        formState: { errors, isValid },
+        formState: { errors },
     } = useForm({
         resolver: yupResolver(LoginSchema),
         mode: 'onChange',
@@ -37,7 +37,7 @@ const Login = () => {
 
             login(result);
             navigate('/dashboard');
-            showNotification.success(result?.message || 'Login successful');
+            showNotification.success(result || 'Login successful');
 
         } catch (err) {
             console.error('Login Failed:', err);

@@ -1,9 +1,9 @@
 import { lazy, Suspense, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Loader from '../Components/Loader.jsx';
-import ProtectedRoute from '../Components/ProtectedRoute.jsx';
-import PublicRoute from '../Components/PublicRoute.jsx';
 import { AuthContext } from '../AuthContext/AuthProvider.jsx';
+import PublicRoute from '../Components/CustomeRoute/PublicRoute.jsx';
+import ProtectedRoute from '../Components/CustomeRoute/ProtectedRoute.jsx';
 
 // Lazy load the components
 const Dashboard = lazy(() => import('../Pages/Dashboard.jsx'));
