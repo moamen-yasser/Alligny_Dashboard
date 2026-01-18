@@ -4,23 +4,25 @@ import {
     Group,
     Progress,
 } from "@mantine/core";
-import { changePasswordValidationSchema } from "./validationSchema";
+import { getChangePasswordValidationSchema } from "./validationSchema";
 import VisibilityToggleIcon from "./Hook/VisibilityToggleIcon";
 import { useChangePasswordMutation } from "../../Service/Apis/authApi";
 import { showNotification } from "../../utils/notification";
+import { useTranslation } from "react-i18next";
 
 const DynamicFormFields = () => {
+    const { t } = useTranslation();
     // -- API Mutations --
     const [changePassword, { isLoading: isLoadingChangePassword }] = useChangePasswordMutation();
     const isLoading = isLoadingChangePassword;
 
     // -- Password Logic --
     const requirements = useMemo(() => [
-        { re: /[0-9]/, label: "Includes number" },
-        { re: /[a-z]/, label: "Includes lowercase letter" },
-        { re: /[A-Z]/, label: "Includes uppercase letter" },
-        { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: "Includes special symbol" },
-    ], []);
+        { re: /[0-9]/, label: t('includes_number') },
+        { re: /[a-z]/, label: t('includes_lowercase') },
+        { re: /[A-Z]/, label: t('includes_uppercase') },
+        { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: t('includes_special_symbol') },
+    ], [t]);
 
     const getStrength = useCallback((password) => {
         if (password.length < 8) return 10;
@@ -29,7 +31,7 @@ const DynamicFormFields = () => {
             if (!requirement.re.test(password)) multiplier += 1;
         });
         return Math.max(100 - (100 / (requirements.length + 1)) * multiplier, 10);
-    }, []);
+    }, [requirements]);
 
     const getStrengthColor = useCallback((strength) => {
         if (strength < 30) return "red";
@@ -47,12 +49,12 @@ const DynamicFormFields = () => {
                 confirmNewPassword: data.confirm_password,
             }).unwrap();
             showNotification.success({
-                title: "Password Changed",
-                message: "Your password has been changed successfully.",
+                title: t('password_changed_title'),
+                message: t('password_changed_desc'),
             });
         } catch (error) {
             console.error("Error resetting password:", error);
-            showNotification.error(error?.data?.message || "Error resetting password");
+            showNotification.error(error?.data?.message || t('error_changing_password'));
         }
     };
 
@@ -69,7 +71,7 @@ const DynamicFormFields = () => {
                         <div>
                             <PasswordInput
                                 {...field}
-                                label="Current Password"
+                                label={t('current_password')}
                                 placeholder="••••••••"
                                 error={error}
                                 classNames={{ input: "!py-6 !rounded-lg dark:!bg-slate-800 dark:!text-white focus:!border-main transition-colors" }}
@@ -99,7 +101,7 @@ const DynamicFormFields = () => {
                         <div>
                             <PasswordInput
                                 {...field}
-                                label="New Password"
+                                label={t('new_password')}
                                 placeholder="••••••••"
                                 error={error}
                                 classNames={{ input: "!py-6 !rounded-lg dark:!bg-slate-800 dark:!text-white focus:!border-main transition-colors" }}
@@ -129,7 +131,7 @@ const DynamicFormFields = () => {
                         <div>
                             <PasswordInput
                                 {...field}
-                                label="Confirm Password"
+                                label={t('confirm_password')}
                                 placeholder="••••••••"
                                 error={error}
                                 classNames={{ input: "!py-6 !rounded-lg dark:!bg-slate-800 dark:!text-white focus:!border-main transition-colors" }}
@@ -149,7 +151,7 @@ const DynamicFormFields = () => {
                 },
             },
         ],
-        validationSchema: changePasswordValidationSchema,
+        validationSchema: getChangePasswordValidationSchema(t),
         onSubmit: handleSubmit,
         isLoading: isLoading,
         defaultValues: {

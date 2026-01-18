@@ -1,15 +1,17 @@
 import { Modal, Flex } from "@mantine/core";
 import DynamicForm from "./DynamicForm";
 import DynamicFormFields from "./DynamicFormFields";
+import { useTranslation } from "react-i18next";
 
 const ChangePasswordForm = ({ opened, close }) => {
     const { form } = DynamicFormFields();
+    const { t } = useTranslation();
 
     return (
         <Modal
             opened={opened}
             onClose={close}
-            title={<div><h3 className="text-xl font-bold text-main">Change Password</h3></div>}
+            title={<div><h3 className="text-xl font-bold text-main">{t('change_password')}</h3></div>}
             centered
             closeOnEscape={false}
             closeOnClickOutside={false}

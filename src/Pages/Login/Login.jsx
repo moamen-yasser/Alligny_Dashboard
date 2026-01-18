@@ -12,7 +12,10 @@ import TextInputField from '../../Forms/TextInputField';
 import { useLoginMutation } from '../../Service/Apis/authApi';
 import { showNotification } from '../../utils/notification';
 
+import { useTranslation } from 'react-i18next';
+
 const Login = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { login } = useContext(AuthContext);
     const [LoginApi, { isLoading: isLoadingLogin }] = useLoginMutation();
@@ -23,7 +26,7 @@ const Login = () => {
         setError,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(LoginSchema),
+        resolver: yupResolver(LoginSchema(t)),
         mode: 'onChange',
     });
 
@@ -37,7 +40,7 @@ const Login = () => {
 
             login(result);
             navigate('/dashboard');
-            showNotification.success(result || 'Login successful');
+            showNotification.success(result || t('login_success'));
 
         } catch (err) {
             console.error('Login Failed:', err);
@@ -51,7 +54,7 @@ const Login = () => {
                 setError('password', { type: 'manual', message: err.data.message });
             }
 
-            showNotification.error(err || 'Login Failed');
+            showNotification.error(err || t('login_failed'));
         }
     };
 
@@ -72,18 +75,18 @@ const Login = () => {
                     <TextInputField
                         control={control}
                         name="email"
-                        placeholder="Enter Admin Email"
+                        placeholder={t('enter_email')}
                         error={errors.email?.message}
-                        label="Email"
+                        label={t('email_label')}
                         login={true}
                     />
 
                     <PasswordInput
                         control={control}
                         name="password"
-                        placeholder="Enter Admin Password"
+                        placeholder={t('enter_password')}
                         error={errors.password?.message}
-                        label="Password"
+                        label={t('password_label')}
                     />
 
                     <Button
@@ -93,7 +96,7 @@ const Login = () => {
                         loading={isLoadingLogin}
                         loaderProps={{ type: "dots" }}
                     >
-                        Login
+                        {t('login')}
                     </Button>
                 </form>
             </Card>

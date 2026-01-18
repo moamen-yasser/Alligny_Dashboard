@@ -9,8 +9,10 @@ import {
     HiOutlineSquaresPlus
 } from "react-icons/hi2";
 import { getMappedValue } from "../../utils/serviceMappings";
+import { useTranslation } from "react-i18next";
 
 const ServiceDescriptionCard = ({ service, specificFields }) => {
+    const { t } = useTranslation();
     const getIcon = (k) => {
         const lowKey = k.toLowerCase();
         if (lowKey.includes('price')) return <HiOutlineCurrencyDollar size={18} />;
@@ -26,7 +28,7 @@ const ServiceDescriptionCard = ({ service, specificFields }) => {
         <Card shadow="sm" padding="xl" radius="lg" withBorder className="bg-white dark:bg-slate-900 border-t-4 border-t-main">
             <Text fw={800} size="lg" mb="md" className="text-slate-800 dark:text-white flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-main"></span>
-                About the Service
+                {t('about_service')}
             </Text>
 
             {service.description ? (
@@ -37,7 +39,7 @@ const ServiceDescriptionCard = ({ service, specificFields }) => {
                 </ScrollArea>
             ) : (
                 <div className="py-8 flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
-                    <Text size="sm" fs="italic" c="dimmed">No description provided for this service.</Text>
+                    <Text size="sm" fs="italic" c="dimmed">{t('no_description')}</Text>
                 </div>
             )}
 
@@ -45,7 +47,7 @@ const ServiceDescriptionCard = ({ service, specificFields }) => {
                 <>
                     <Divider
                         my="xl"
-                        label={<Text size="xs" fw={700} c="dimmed" tt="uppercase" className="tracking-widest">Additional Service Specs</Text>}
+                        label={<Text size="xs" fw={700} c="dimmed" tt="uppercase" className="tracking-widest">{t('additional_specs')}</Text>}
                         labelPosition="center"
                         className="opacity-60"
                     />
@@ -70,10 +72,10 @@ const ServiceDescriptionCard = ({ service, specificFields }) => {
                                     </ThemeIcon>
                                     <Stack gap={2} className="flex-1">
                                         <Text size="xs" fw={700} c="dimmed" className="tracking-tight opacity-80 leading-snug">
-                                            {getMappedValue(key)}
+                                            {getMappedValue(key, t)}
                                         </Text>
                                         <Text size="sm" fw={800} className="text-textSecondColor dark:text-white leading-tight">
-                                            {typeof value === 'boolean' ? (value ? 'Yes' : 'No') : getMappedValue(value)}
+                                            {typeof value === 'boolean' ? (value ? t('yes') : t('no')) : getMappedValue(value, t)}
                                         </Text>
                                     </Stack>
                                 </Group>

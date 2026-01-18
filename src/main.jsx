@@ -8,18 +8,21 @@ import { AuthProvider } from './AuthContext/AuthProvider.jsx';
 import { ThemeProvider, useTheme } from './Context/ThemeContext.jsx';
 import { Provider } from 'react-redux';
 import { Store } from './Service/Store.jsx';
+import { LanguageProvider, useLanguage } from './Context/LanguageContext.jsx';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import { Notifications } from '@mantine/notifications';
 
 const Root = () => {
   const { isDarkMode } = useTheme();
+  const { language } = useLanguage();
+
   return (
     <MantineProvider
       forceColorScheme={isDarkMode ? 'dark' : 'light'}
-      theme={{ fontFamily: 'Cairo, sans-serif' }}
-      withGlobalStyles
-      withNormalizeCSS
+      theme={{
+        fontFamily: 'Cairo, sans-serif',
+      }}
     >
       <Notifications position="top-right" />
       <App />
@@ -32,7 +35,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={Store}>
       <AuthProvider>
         <ThemeProvider>
-          <Root />
+          <LanguageProvider>
+            <Root />
+          </LanguageProvider>
         </ThemeProvider>
       </AuthProvider>
     </Provider>

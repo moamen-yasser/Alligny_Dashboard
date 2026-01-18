@@ -1,8 +1,10 @@
 import { Card, Stack, Group, Badge, ActionIcon, Tooltip, Text } from "@mantine/core";
 import { HiOutlinePlay, HiOutlineTrash, HiOutlineCalendar, HiOutlineUser, HiOutlineDocumentText } from "react-icons/hi2";
 import { formatDateTime } from "../../utils/formatDateTime";
+import { useTranslation } from "react-i18next";
 
 const VideoCard = ({ video, onPlay, onDelete }) => {
+    const { t } = useTranslation();
     return (
         <Card
             shadow="sm"
@@ -37,7 +39,7 @@ const VideoCard = ({ video, onPlay, onDelete }) => {
                             <Group gap="xs" mb={4}>
                                 <HiOutlineDocumentText size={16} className="text-main" />
                                 <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
-                                    Description
+                                    {t('description')}
                                 </Text>
                             </Group>
                             <Text
@@ -51,7 +53,7 @@ const VideoCard = ({ video, onPlay, onDelete }) => {
                         </div>
 
                         {/* Delete Icon */}
-                        <Tooltip label="Delete Video">
+                        <Tooltip label={t('delete_video')}>
                             <ActionIcon
                                 variant="light"
                                 color="red"
@@ -93,7 +95,7 @@ const VideoCard = ({ video, onPlay, onDelete }) => {
                                 size="sm"
                                 radius="sm"
                             >
-                                {video.section === 'Top' ? '↑ Top' : '↓ Bottom'}
+                                {video.section === 'Top' ? `↑ ${t('top')}` : `↓ ${t('bottom')}`}
                             </Badge>
                         </Group>
                     </Stack>

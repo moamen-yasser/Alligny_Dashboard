@@ -1,15 +1,15 @@
 export const HEADER_COLUMNS = [
-    "Provider Info",
-    "Provider Phone",
-    "Service Name",
-    "Created At",
-    "Status",
-    "Actions"
+    "provider_info",
+    "provider_phone",
+    "service_name",
+    "created_at",
+    "status",
+    "actions"
 ];
 
 export const STATUS_TABS = [
-    { value: "All", label: "All Services" },
-    { value: "Approved", label: "Approved" },
-    { value: "Rejected", label: "Rejected" },
-    { value: "Pending", label: "Pending" },
+    { value: "All", label: "all_services" },
+    { value: "Approved", label: "approved" },
+    { value: "Rejected", label: "rejected" },
+    { value: "Pending", label: "pending" },
 ];

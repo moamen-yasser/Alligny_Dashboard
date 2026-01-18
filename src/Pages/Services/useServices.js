@@ -8,8 +8,10 @@ import { useDebounce } from "../../utils/useDebounce";
 import { useDisclosure } from "@mantine/hooks";
 import { showNotification } from "../../utils/notification";
 import { useUrlPagination } from "../../utils/useUrlPagination";
+import { useTranslation } from "react-i18next";
 
 export const useServices = (searchQuery) => {
+  const { t } = useTranslation();
   // State
   const [activePage, setActivePage] = useUrlPagination("page", 1);
   const [status, setStatus] = useState("All");
@@ -54,16 +56,16 @@ export const useServices = (searchQuery) => {
       let response;
       if (action === "approve") {
         response = await approveService({ id }).unwrap();
-        showNotification.success(response?.message || "Service approved successfully");
+        showNotification.success(response?.message || t('service_approved_success'));
       } else if (action === "reject") {
         response = await rejectService({ id }).unwrap();
-        showNotification.success(response?.message || "Service rejected successfully");
+        showNotification.success(response?.message || t('service_rejected_success'));
       }
 
       close();
       return response;
     } catch (error) {
-      showNotification.error(error?.data?.message || "Failed to perform action");
+      showNotification.error(error?.data?.message || t('failed_to_perform_action'));
       throw error;
     } finally {
       setLoadingServiceId(null);
@@ -76,15 +78,15 @@ export const useServices = (searchQuery) => {
   const getModalText = () => {
     if (currentAction === 'approve') {
       return {
-        title: "Approve Service",
-        description: "Are you sure you want to approve this service?",
-        actionText: "Approve"
+        title: "approve_service_title",
+        description: "approve_service_desc",
+        actionText: "approve"
       };
     }
     return {
-      title: "Reject Service",
-      description: "Are you sure you want to reject this service?",
-      actionText: "Reject"
+      title: "reject_service_title",
+      description: "reject_service_desc",
+      actionText: "reject"
     };
   };
 

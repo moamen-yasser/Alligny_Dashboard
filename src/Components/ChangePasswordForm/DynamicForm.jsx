@@ -1,6 +1,8 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "@mantine/core";
 import { useForm, Controller, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+
 const DynamicForm = ({
     fields = [],
     validationSchema,
@@ -8,6 +10,7 @@ const DynamicForm = ({
     isLoading,
     defaultValues,
 }) => {
+    const { t } = useTranslation();
     const {
         handleSubmit,
         control,
@@ -66,7 +69,7 @@ const DynamicForm = ({
                     loading={isLoading}
                     loaderProps={{ type: "dots" }}
                 >
-                    Change Password
+                    {t('change_password')}
                 </Button>
             </div>
         </form>

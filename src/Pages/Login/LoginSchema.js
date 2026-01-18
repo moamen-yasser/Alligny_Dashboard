@@ -1,24 +1,23 @@
-
 import * as yup from 'yup';
 
-const LoginSchema = yup.object().shape({
+const getLoginSchema = (t) => yup.object().shape({
     email: yup
         .string()
         .trim()
-        .required('Email is required')
-        .email('Please enter a valid email address'),
+        .required(t('email_required'))
+        .email(t('invalid_email')),
     password: yup
         .string()
-        .required('Password is required')
-        .min(8, 'Password must be at least 8 characters')
-        .max(32, 'Password cannot exceed 32 characters')
-        .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-        .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-        .matches(/\d/, 'Password must contain at least one number')
-        .matches(/[@$!%*?&#]/, 'Password must contain at least one special character (@$!%*?&#)'),
+        .required(t('password_required'))
+        .min(8, t('password_min_length', { count: 8 }))
+        .max(32, t('password_max_length', { count: 32 }))
+        .matches(/[a-z]/, t('password_lowercase'))
+        .matches(/[A-Z]/, t('password_uppercase'))
+        .matches(/\d/, t('password_number'))
+        .matches(/[@$!%*?&#]/, t('password_special')),
 });
 
-export default LoginSchema;
+export default getLoginSchema;
 
 
 

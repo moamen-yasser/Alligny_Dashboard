@@ -1,7 +1,9 @@
 import { Paper, Stack, Box, Text, Button } from "@mantine/core";
 import { HiOutlinePlus, HiOutlinePlay } from "react-icons/hi2";
+import { useTranslation } from "react-i18next";
 
 const EmptyState = ({ onUploadClick }) => {
+    const { t } = useTranslation();
     return (
         <Paper
             shadow="sm"
@@ -16,10 +18,10 @@ const EmptyState = ({ onUploadClick }) => {
                 </Box>
                 <div>
                     <Text size="lg" fw={600} className="text-slate-800 dark:text-white mb-2">
-                        No Videos Yet
+                        {t('no_videos_yet')}
                     </Text>
                     <Text size="sm" c="dimmed">
-                        Upload your first video to get started
+                        {t('upload_first_video_desc')}
                     </Text>
                 </div>
                 <Button
@@ -29,7 +31,7 @@ const EmptyState = ({ onUploadClick }) => {
                     color="#50C5C8"
                     radius="md"
                 >
-                    Upload Video
+                    {t('upload_video')}
                 </Button>
             </Stack>
         </Paper>

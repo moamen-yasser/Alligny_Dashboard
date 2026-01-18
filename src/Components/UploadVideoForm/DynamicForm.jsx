@@ -2,6 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "@mantine/core";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { HiOutlineCloudArrowUp, HiOutlineXMark } from "react-icons/hi2";
+import { useTranslation } from "react-i18next";
 
 const DynamicForm = ({
     fields = [],
@@ -11,6 +12,7 @@ const DynamicForm = ({
     defaultValues,
     close,
 }) => {
+    const { t } = useTranslation();
     const {
         handleSubmit,
         control,
@@ -68,7 +70,7 @@ const DynamicForm = ({
                     className="!w-full !h-12 !font-semibold !text-base !text-slate-600 dark:!text-slate-400 !border-main hover:!bg-slate-100 dark:hover:!bg-slate-800"
                     disabled={isLoading}
                 >
-                    No, Cancel
+                    {t('no_cancel')}
                 </Button>
                 <Button
                     type="submit"
@@ -81,7 +83,7 @@ const DynamicForm = ({
                     loading={isLoading}
                     loaderProps={{ type: "dots" }}
                 >
-                    Upload Video
+                    {t('upload_video')}
                 </Button>
             </div>
         </form>

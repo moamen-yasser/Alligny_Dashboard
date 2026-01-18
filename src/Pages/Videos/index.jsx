@@ -8,9 +8,11 @@ import VideosHeader from "./VideosHeader";
 import EmptyState from "./EmptyState";
 import VideosGrid from "./VideosGrid";
 import PaginationComp from "../../Components/Pagination";
+import { useTranslation } from "react-i18next";
 
 const Videos = () => {
     const { searchQuery } = useOutletContext();
+    const { t } = useTranslation();
 
     const {
         activePage,
@@ -35,7 +37,7 @@ const Videos = () => {
 
     return (
         <>
-            <section className="mt-8">
+            <>
                 <VideosHeader
                     section={section}
                     onSectionChange={handleSectionChange}
@@ -47,7 +49,7 @@ const Videos = () => {
                     <div className="flex justify-center items-center py-20">
                         <Loader isLoading={true} />
                     </div>
-                ) : allVideos?.items?.length === 0 ? (
+                ) : allVideos?.items?.length > 0 ? (
                     <EmptyState onUploadClick={openUploadModal} />
                 ) : (
                     <>
@@ -64,7 +66,7 @@ const Videos = () => {
                         />
                     </>
                 )}
-            </section>
+            </>
 
             {/* Upload Modal */}
             <UploadVideoForm opened={uploadModalOpened} close={closeUploadModal} />
@@ -80,10 +82,10 @@ const Videos = () => {
             <ConfirmModal
                 opened={opened}
                 close={close}
-                title="Delete Video"
-                description="Are you sure you want to delete this video? This action cannot be undone."
+                title={t('delete_video_title')}
+                description={t('delete_video_desc')}
                 handleConfirm={handleConfirmDelete}
-                actionText="Delete"
+                actionText="delete"
                 isLoading={isDeleting}
             />
         </>

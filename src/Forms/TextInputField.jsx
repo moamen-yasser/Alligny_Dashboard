@@ -30,7 +30,7 @@ const TextInputField = ({ control, name, placeholder, error, label, login, title
                             className="w-full"
                             classNames={{
                                 input: `!py-6 !rounded-lg !text-base !w-full dark:!bg-slate-800 dark:!text-white dark:!border-slate-700 focus:!border-main transition-colors`,
-                                error: "text-red-500 text-xs ml-1",
+                                error: "text-red-500 text-xs ms-1",
                             }}
                             autosize
                             minRows={4}

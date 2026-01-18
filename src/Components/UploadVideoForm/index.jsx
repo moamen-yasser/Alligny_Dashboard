@@ -1,15 +1,17 @@
 import { Modal, Flex } from "@mantine/core";
 import DynamicForm from "./DynamicForm";
 import DynamicFormFields from "./DynamicFormFields";
+import { useTranslation } from "react-i18next";
 
 const UploadVideoForm = ({ opened, close }) => {
     const { form } = DynamicFormFields();
+    const { t } = useTranslation();
 
     return (
         <Modal
             opened={opened}
             onClose={close}
-            title={<div><h3 className="text-xl font-bold text-main">Upload New Video</h3></div>}
+            title={<div><h3 className="text-xl font-bold text-main">{t('upload_new_video')}</h3></div>}
             centered
             closeOnEscape={false}
             closeOnClickOutside={false}

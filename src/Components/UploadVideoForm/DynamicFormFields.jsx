@@ -1,10 +1,12 @@
 import { Textarea, FileInput, Radio, Group, Stack, Text } from "@mantine/core";
 import { HiOutlineVideoCamera, HiOutlineArrowUp, HiOutlineArrowDown } from "react-icons/hi2";
-import { uploadVideoValidationSchema } from "./validationSchema";
+import { getUploadVideoValidationSchema } from "./validationSchema";
 import { useUploadVideoMutation } from "../../Service/Apis/videosApi";
 import { showNotification } from "../../utils/notification";
+import { useTranslation } from "react-i18next";
 
 const DynamicFormFields = () => {
+    const { t } = useTranslation();
     const [uploadVideo, { isLoading }] = useUploadVideoMutation();
 
     const handleSubmit = async (data) => {
@@ -17,12 +19,12 @@ const DynamicFormFields = () => {
             await uploadVideo(formData).unwrap();
 
             showNotification.success({
-                title: "Video Uploaded",
-                message: "Your video has been uploaded successfully.",
+                title: t('video_uploaded_title'),
+                message: t('video_uploaded_desc'),
             });
         } catch (error) {
             console.error("Error uploading video:", error);
-            showNotification.error(error?.data?.message || "Error uploading video");
+            showNotification.error(error?.data?.message || t('error_uploading_video'));
         }
     };
 
@@ -34,8 +36,8 @@ const DynamicFormFields = () => {
                 condition: () => true,
                 component: ({ field, error, setValue }) => (
                     <FileInput
-                        label="Video File"
-                        placeholder="Select video file"
+                        label={t('video_file')}
+                        placeholder={t('select_video_file')}
                         accept="video/mp4,video/quicktime,video/x-msvideo"
                         leftSection={<HiOutlineVideoCamera size={18} />}
                         error={error}
@@ -54,8 +56,8 @@ const DynamicFormFields = () => {
                 component: ({ field, error }) => (
                     <Textarea
                         {...field}
-                        label="Description"
-                        placeholder="Enter video description"
+                        label={t('description')}
+                        placeholder={t('enter_video_description')}
                         error={error}
                         minRows={5}
                         maxRows={10}
@@ -74,22 +76,22 @@ const DynamicFormFields = () => {
                 component: ({ field, error }) => (
                     <div>
                         <Text size="sm" fw={500} mb={8} className="dark:text-white">
-                            Video Position <span className="text-red-500">*</span>
+                            {t('video_position')} <span className="text-red-500">*</span>
                         </Text>
                         <Radio.Group
                             {...field}
                             error={error}
-                            description="Choose where this video will appear in the mobile app"
+                            description={t('video_position_desc')}
                         >
                             <Stack gap="xs" mt={14}>
                                 <Radio
-                                    value="top"  
+                                    value="top"
                                     label={
                                         <Group gap="xs">
                                             <HiOutlineArrowUp size={18} className="text-blue-500" />
                                             <div>
-                                                <Text size="sm" fw={600} className="dark:text-white">Top Section</Text>
-                                                <Text size="xs" c="dimmed">Video will appear at the top of the list</Text>
+                                                <Text size="sm" fw={600} className="dark:text-white">{t('top_section')}</Text>
+                                                <Text size="xs" c="dimmed">{t('top_section_desc')}</Text>
                                             </div>
                                         </Group>
                                     }
@@ -104,8 +106,8 @@ const DynamicFormFields = () => {
                                         <Group gap="xs">
                                             <HiOutlineArrowDown size={18} className="text-orange-500" />
                                             <div>
-                                                <Text size="sm" fw={600} className="dark:text-white">Bottom Section</Text>
-                                                <Text size="xs" c="dimmed">Video will appear at the bottom of the list</Text>
+                                                <Text size="sm" fw={600} className="dark:text-white">{t('bottom_section')}</Text>
+                                                <Text size="xs" c="dimmed">{t('bottom_section_desc')}</Text>
                                             </div>
                                         </Group>
                                     }
@@ -120,7 +122,7 @@ const DynamicFormFields = () => {
                 ),
             },
         ],
-        validationSchema: uploadVideoValidationSchema,
+        validationSchema: getUploadVideoValidationSchema(t),
         onSubmit: handleSubmit,
         isLoading: isLoading,
         defaultValues: {

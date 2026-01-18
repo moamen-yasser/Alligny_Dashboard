@@ -1,24 +1,31 @@
-
 import { Card, Text, Badge, Group, Tabs, Grid, Stack, Divider, Paper, Button } from "@mantine/core";
 import { HiOutlineMapPin, HiOutlinePhone, HiOutlineGlobeAlt, HiOutlineClock } from "react-icons/hi2";
 import { FaWhatsapp } from "react-icons/fa";
 import { getGovernorateName, getCityName } from "../../utils/locationMappings";
+import { useTranslation } from "react-i18next";
 
 const ServiceBranchesCard = ({ service }) => {
+    const { t } = useTranslation();
+    const days = [t('sun'), t('mon'), t('tue'), t('wed'), t('thu'), t('fri'), t('sat')];
+
     return (
         <Card shadow="sm" padding="0" radius="lg" withBorder className="bg-white dark:bg-slate-900 overflow-hidden">
             <div className="p-6 pb-0">
                 <Group justify="space-between">
-                    <Text fw={700} size="lg" className="text-slate-800 dark:text-white">Service Branches</Text>
-                    <Badge
-                        variant="gradient"
-                        gradient={{ from: '#50C5C8', to: '#26A69A', deg: 45 }}
-                        size="xl"
-                        radius="md"
-                        className="py-1 px-4 !h-9 shadow-sm"
-                    >
-                        {service?.branches?.length} {service?.branches?.length === 1 ? 'Branch' : 'Branches'} Available
-                    </Badge>
+                    <Text fw={700} size="lg" className="text-slate-800 dark:text-white">
+                        {t('service_branches')}
+                    </Text>
+                    {service?.branches?.length > 0 && (
+                        <Badge
+                            variant="gradient"
+                            gradient={{ from: '#50C5C8', to: '#26A69A', deg: 45 }}
+                            size="xl"
+                            radius="md"
+                            className="py-1 px-4 !h-9 shadow-sm"
+                        >
+                            {t('branches_count', { count: service?.branches?.length })}
+                        </Badge>
+                    )}
                 </Group>
             </div>
 
@@ -30,7 +37,7 @@ const ServiceBranchesCard = ({ service }) => {
                             value={branch?.id}
                             className="px-6 py-4 font-semibold data-[active]:!text-main"
                         >
-                            Branch #{idx + 1}
+                            {t('branch_number', { number: idx + 1 })}
                         </Tabs.Tab>
                     ))}
                 </Tabs.List>
@@ -41,7 +48,7 @@ const ServiceBranchesCard = ({ service }) => {
                             <Grid.Col span={{ base: 12, sm: 7 }}>
                                 <Stack gap="md">
                                     <div>
-                                        <Text size="xs" c="dimmed" tt="uppercase" fw={700} mb={4}>Location</Text>
+                                        <Text size="xs" c="dimmed" tt="uppercase" fw={700} mb={4}>{t('location')}</Text>
                                         <Group gap="xs" wrap="nowrap" align="start">
                                             <HiOutlineMapPin size={20} className="text-main mt-1" />
                                             <div>
@@ -55,7 +62,7 @@ const ServiceBranchesCard = ({ service }) => {
 
                                     <Group grow>
                                         <div>
-                                            <Text size="xs" c="dimmed" tt="uppercase" fw={700} mb={4}>Contact</Text>
+                                            <Text size="xs" c="dimmed" tt="uppercase" fw={700} mb={4}>{t('contact')}</Text>
                                             <Stack gap={8}>
                                                 <Group gap="xs">
                                                     <HiOutlinePhone size={16} className="text-main" />
@@ -72,7 +79,7 @@ const ServiceBranchesCard = ({ service }) => {
                                                     <FaWhatsapp size={16} className="text-green-500" />
                                                     <Text
                                                         component="a"
-                                                        href={`https://wa.me/${branch.whatsAppNumber.replace(/\s+/g, '')}`}
+                                                        href={`https://wa.me/${branch?.whatsAppNumber?.replace(/\s+/g, '')}`}
                                                         target="_blank"
                                                         size="sm"
                                                         className="hover:text-green-600 transition-colors font-medium"
@@ -91,7 +98,7 @@ const ServiceBranchesCard = ({ service }) => {
                                                 color="main"
                                                 leftSection={<HiOutlineGlobeAlt />}
                                             >
-                                                View on Map
+                                                {t('view_on_map')}
                                             </Button>
                                         )}
                                     </Group>
@@ -102,16 +109,16 @@ const ServiceBranchesCard = ({ service }) => {
                                 <Paper withBorder p="md" radius="md" className="bg-slate-50 dark:bg-slate-800">
                                     <Group gap="xs" mb="sm">
                                         <HiOutlineClock className="text-main" size={18} />
-                                        <Text fw={700} size="sm">Working Hours</Text>
+                                        <Text fw={700} size="sm">{t('working_hours')}</Text>
                                     </Group>
                                     <Stack gap={6}>
                                         {[...(branch.workingHours || [])]?.sort((a, b) => ((a?.dayOfWeek + 1) % 7) - ((b?.dayOfWeek + 1) % 7))?.map((hour, idx) => (
                                             <Group key={idx} justify="space-between">
-                                                <Text size="xs" fw={500}>{["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][hour?.dayOfWeek]}</Text>
+                                                <Text size="xs" fw={500}>{days[hour?.dayOfWeek]}</Text>
                                                 {hour?.isOpen ? (
                                                     <Text size="xs" c="main" fw={600}>{hour?.fromTime} - {hour?.toTime}</Text>
                                                 ) : (
-                                                    <Text size="xs" c="red" fw={600}>Closed</Text>
+                                                    <Text size="xs" c="red" fw={600}>{t('closed')}</Text>
                                                 )}
                                             </Group>
                                         ))}
