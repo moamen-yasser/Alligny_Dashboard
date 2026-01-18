@@ -49,7 +49,7 @@ const Videos = () => {
                     <div className="flex justify-center items-center py-20">
                         <Loader isLoading={true} />
                     </div>
-                ) : allVideos?.items?.length > 0 ? (
+                ) : allVideos?.items?.length === 0 ? (
                     <EmptyState onUploadClick={openUploadModal} />
                 ) : (
                     <>
