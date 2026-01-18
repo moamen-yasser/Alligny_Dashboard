@@ -1,5 +1,7 @@
 import { Group, Stack, Text, Badge, Button, ActionIcon } from "@mantine/core";
-import { HiArrowLeft, HiOutlineCheckCircle, HiOutlineXCircle } from "react-icons/hi2";
+import { HiArrowLeft, HiArrowRight, HiOutlineCheckCircle, HiOutlineXCircle } from "react-icons/hi2";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 const ServiceHeader = ({
     service,
@@ -9,6 +11,9 @@ const ServiceHeader = ({
     isApproveLoading,
     isRejectLoading
 }) => {
+    const { t } = useTranslation();
+    const isAr = i18n.language === 'ar';
+
     return (
         <Group justify="space-between" mb="xl">
             <Stack gap={4}>
@@ -19,14 +24,14 @@ const ServiceHeader = ({
                         onClick={() => navigate(-1)}
                         className="hover:scale-110 transition-transform"
                     >
-                        <HiArrowLeft size={20} />
+                        {isAr ? <HiArrowRight size={20} /> : <HiArrowLeft size={20} />}
                     </ActionIcon>
                     <Text size="xl" fw={800} className="text-slate-800 dark:text-white">
-                        Service Details
+                        {t('service_details')}
                     </Text>
                 </Group>
-                <Text size="sm" c="dimmed" ml={32}>
-                    View and manage service information for <span className="text-main font-semibold">"{service.name}"</span>
+                <Text size="sm" c="dimmed" ml={isAr ? 0 : 32} mr={isAr ? 32 : 0}>
+                    {t('manage_service_info')} <span className="text-main font-semibold">"{service.name}"</span>
                 </Text>
             </Stack>
 
@@ -37,9 +42,9 @@ const ServiceHeader = ({
                     color={statusColors[service?.status]}
                     className={`py-5 px-8 font-extrabold shadow-sm !text-white transition-all duration-300 ${service?.status === 'Pending' ? 'animate-pulse' : ''}`}
                     radius="xl"
-                    leftSection={<span className="w-2 h-2 rounded-full bg-white mr-1" />}
+                    leftSection={<span className={`w-2 h-2 rounded-full bg-white ${isAr ? 'ml-2' : 'mr-1'}`} />}
                 >
-                    {service?.status}
+                    {t(service?.status?.toLowerCase() || 'n_a')}
                 </Badge>
 
                 <Group gap="xs">
@@ -51,7 +56,7 @@ const ServiceHeader = ({
                             onClick={() => handleActionClick('approve')}
                             loading={isApproveLoading}
                         >
-                            Approve
+                            {t('approve')}
                         </Button>
                     )}
                     {(service?.status === "Pending" || service?.status === "Approved") && (
@@ -63,7 +68,7 @@ const ServiceHeader = ({
                             onClick={() => handleActionClick('reject')}
                             loading={isRejectLoading}
                         >
-                            Reject
+                            {t('reject')}
                         </Button>
                     )}
                 </Group>

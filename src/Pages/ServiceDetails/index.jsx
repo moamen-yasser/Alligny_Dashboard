@@ -2,6 +2,7 @@ import { Container, Grid, Stack } from "@mantine/core";
 import Loader from "../../Components/Loader";
 import { ConfirmModal } from "../../Components/ConfirmModal";
 import NotFound from "../../Components/NotFound";
+import { useTranslation } from "react-i18next";
 
 // Import custom hook
 import { useServiceDetails } from "./useServiceDetails";
@@ -15,6 +16,7 @@ import ServiceDescriptionCard from "./ServiceDescriptionCard";
 import ServiceBranchesCard from "./ServiceBranchesCard";
 
 const ServiceDetails = () => {
+    const { t } = useTranslation();
     const {
         service,
         isLoading,
@@ -41,7 +43,7 @@ const ServiceDetails = () => {
     if (!service) return <NotFound />;
 
     return (
-        <Container size="xl" py="xl">
+        <Container size="xl" py={0}>
             {/* Header Section */}
             <ServiceHeader
                 service={service}
@@ -75,10 +77,10 @@ const ServiceDetails = () => {
             <ConfirmModal
                 opened={opened}
                 close={close}
-                title={currentAction === 'approve' ? 'Approve Service' : 'Reject Service'}
-                description={`Are you sure you want to ${currentAction} "${service.name}"?`}
+                title={currentAction === 'approve' ? t('approve_service_title') : t('reject_service_title')}
+                description={t(currentAction === 'approve' ? 'approve_service_desc_name' : 'reject_service_desc_name', { name: service.name })}
                 handleConfirm={handleConfirmAction}
-                actionText={currentAction === 'approve' ? 'Approve' : 'Reject'}
+                actionText={currentAction}
                 isLoading={isApproveLoading || isRejectLoading}
             />
         </Container>

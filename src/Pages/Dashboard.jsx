@@ -9,8 +9,11 @@ import { useState, useEffect } from 'react';
 import { FaDesktop, FaExclamationCircle } from 'react-icons/fa';
 import NavBar from '../Header/NavBar';
 import { MdOutlineMedicalServices } from 'react-icons/md';
+import { useTranslation } from 'react-i18next';
 
 const Dashboard = () => {
+    const { t, i18n } = useTranslation();
+    const isRTL = i18n.dir() === "rtl";
     const { tabValue } = useParams();
     const { pathname } = useLocation();
     const navigate = useNavigate();
@@ -34,19 +37,19 @@ const Dashboard = () => {
         {
             id: 1,
             value: "services",
-            label: "Services",
+            label: t('services'),
             icon: <MdOutlineMedicalServices size={28} />,
         },
         {
             id: 2,
             value: "customers",
-            label: "Customers",
+            label: t('customers'),
             icon: <PiUsersThree size={28} />,
         },
         {
             id: 3,
             value: "videos",
-            label: "Videos",
+            label: t('videos'),
             icon: <TbCloudUpload size={28} />,
         },
     ];
@@ -60,15 +63,15 @@ const Dashboard = () => {
                     <Logo />
                     <FaDesktop size={64} className="text-gray-600 dark:text-slate-400 mt-6" />
                     <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mt-4 text-center">
-                        Please Use a Larger Screen
+                        {t('use_larger_screen')}
                     </h1>
                     <p className="text-base sm:text-lg text-gray-600 dark:text-slate-400 max-w-md mt-2 text-center">
-                        This dashboard is optimized for larger screens. Please switch to a PC or tablet for the best experience.
+                        {t('larger_screen_desc')}
                     </p>
                     <div className='flex items-center gap-2 mt-4'>
                         <FaExclamationCircle size={20} className="text-yellow-500" />
                         <p className="text-sm text-gray-500 dark:text-slate-500">
-                            Mobile view is not supported at this time.
+                            {t('mobile_view_not_supported')}
                         </p>
                     </div>
                 </div>
@@ -92,7 +95,7 @@ const Dashboard = () => {
                     <div
                         className={`
                             ${isMobileScreen
-                                ? 'fixed inset-y-0 left-0 w-[250px] z-20'
+                                ? `fixed inset-y-0 ${isRTL ? 'right-0' : 'left-0'} w-[250px] z-20`
                                 : isSidebarOpen
                                     ? 'w-[15.5%] min-w-[230px] relative'
                                     : 'w-[6%] min-w-[80px] relative'
@@ -104,16 +107,18 @@ const Dashboard = () => {
                         <button
                             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                             className={`
-                                ${isMobileScreen
-                                    ? 'absolute -right-12 top-4'
-                                    : 'absolute -right-4 top-1/2 transform -translate-y-1/2'
-                                } 
-                                bg-[#F8F8F6] hover:bg-opacity-90 rounded-full p-2 cursor-pointer shadow-xl z-30
+                                absolute top-1/2 transform -translate-y-1/2 z-30
+                                ${isRTL ? '-left-4' : '-right-4'}
+                                bg-[#F8F8F6] dark:bg-slate-800 hover:bg-opacity-90 transition-all duration-300
+                                rounded-full p-2 cursor-pointer shadow-xl flex items-center justify-center
                             `}
                         >
                             <IoIosArrowBack
                                 size={20}
-                                className={`text-main transition-transform duration-300 ${!isSidebarOpen ? 'rotate-180' : ''}`}
+                                className={`text-main transition-transform duration-300 ${isRTL
+                                    ? isSidebarOpen ? 'rotate-180' : 'rotate-0'
+                                    : isSidebarOpen ? 'rotate-0' : 'rotate-180'
+                                    }`}
                             />
                         </button>
 
@@ -142,7 +147,7 @@ const Dashboard = () => {
                     />
                     <div
                         className={
-                            `flex-1 w-full overflow-y-auto bg-[#F8F8F6] dark:bg-slate-800 transition-all duration-300 ease-in-out px-6 pb-8`
+                            `flex-1 w-full overflow-y-auto bg-[#F8F8F6] dark:bg-slate-800 transition-all duration-300 ease-in-out p-6`
                         }
                     >
                         <Outlet context={{ setIsSidebarOpen, isSidebarOpen, isMobileScreen, searchQuery }} />

@@ -19,7 +19,7 @@ export const formatDateTime = (dateInput) => {
         hours = hours % 12 || 12; // Convert 0 to 12 for midnight
         const formattedHours = String(hours).padStart(2, '0');
 
-        return `${month}/${day}/${year} and ${formattedHours}:${minutes} ${period}`;
+        return `${day}/${month}/${year}, ${formattedHours}:${minutes} ${period}`;
     } catch (error) {
         return "N/A";
     }

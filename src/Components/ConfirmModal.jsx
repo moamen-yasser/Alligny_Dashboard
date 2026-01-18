@@ -1,5 +1,6 @@
 import { Modal, Button, Text } from '@mantine/core';
 import { HiCheckCircle, HiExclamationTriangle } from "react-icons/hi2";
+import { useTranslation } from "react-i18next";
 
 export function ConfirmModal({
   opened,
@@ -10,6 +11,7 @@ export function ConfirmModal({
   actionText,
   isLoading
 }) {
+  const { t } = useTranslation();
   const isApprove = actionText?.toLowerCase() === "approve";
 
   return (
@@ -59,7 +61,7 @@ export function ConfirmModal({
             disabled={isLoading}
             onClick={close}
           >
-            No, Cancel
+            {t('cancel')}
           </Button>
           <Button
             onClick={handleConfirm}
@@ -72,7 +74,7 @@ export function ConfirmModal({
               type: 'dots'
             }}
           >
-            Yes, {actionText}
+            {t(actionText?.toLowerCase() || 'approve')}
           </Button>
         </div>
       </div>

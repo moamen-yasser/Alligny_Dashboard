@@ -1,12 +1,14 @@
 import { Card, Text, Stack, Paper, Group, ThemeIcon } from "@mantine/core";
 import { HiOutlineEnvelope, HiOutlinePhone } from "react-icons/hi2";
+import { useTranslation } from "react-i18next";
 
 const ProviderContactCard = ({ service }) => {
+    const { t } = useTranslation();
     return (
         <Card shadow="sm" padding="lg" radius="lg" withBorder className="bg-white dark:bg-slate-900 border-l-4 border-l-main">
             <Text fw={700} mb="md" className="text-slate-800 dark:text-white flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-main"></span>
-                Provider Contact Details
+                {t('provider_contact_details')}
             </Text>
             <Stack gap="sm">
                 <Paper p="xs" radius="md" withBorder className="bg-slate-50/50 dark:bg-slate-800/50">
@@ -15,7 +17,7 @@ const ProviderContactCard = ({ service }) => {
                             <HiOutlineEnvelope size={16} />
                         </ThemeIcon>
                         <div className="overflow-hidden">
-                            <Text size="xs" c="dimmed">Email Address</Text>
+                            <Text size="xs" c="dimmed">{t('email_address')}</Text>
                             <Text
                                 component="a"
                                 href={`mailto:${service.providerEmail}`}
@@ -35,7 +37,7 @@ const ProviderContactCard = ({ service }) => {
                             <HiOutlinePhone size={16} />
                         </ThemeIcon>
                         <div>
-                            <Text size="xs" c="dimmed">Phone Number</Text>
+                            <Text size="xs" c="dimmed">{t('phone_number')}</Text>
                             <Text
                                 component="a"
                                 href={`tel:${service.providerPhoneNumber}`}

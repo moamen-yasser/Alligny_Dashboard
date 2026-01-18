@@ -2,8 +2,10 @@ import { Card, Stack, Image, Text, Group, ThemeIcon, Divider, Tooltip } from "@m
 import { HiCalendar, HiOutlineGlobeAlt, HiOutlineTruck, HiOutlineCreditCard } from "react-icons/hi2";
 import { formatDateTime } from "../../utils/formatDateTime";
 import { getMappedValue } from "../../utils/serviceMappings";
+import { useTranslation } from "react-i18next";
 
 const ServiceImageCard = ({ service }) => {
+    const { t } = useTranslation();
     return (
         <Card shadow="sm" padding="md" radius="lg" withBorder className="bg-white dark:bg-slate-900 overflow-hidden">
             <Card.Section className="bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center overflow-hidden">
@@ -23,14 +25,14 @@ const ServiceImageCard = ({ service }) => {
                 </Text>
                 <Group gap="xs">
                     <HiCalendar className="text-main" size={16} />
-                    <Text size="sm" c="dimmed">Submitted: {formatDateTime(service.createdAt)}</Text>
+                    <Text size="sm" c="dimmed">{t('submitted')}: {formatDateTime(service.createdAt)}</Text>
                 </Group>
                 <Group gap="xs">
                     <ThemeIcon variant="light" color="main" size="sm" radius="xl">
                         <HiOutlineGlobeAlt size={12} />
                     </ThemeIcon>
                     <Text size="sm" c="dimmed">
-                        {getMappedValue(service.categoryName)} • {getMappedValue(service.specializationName)}
+                        {getMappedValue(service.categoryName, t)} • {getMappedValue(service.specializationName, t)}
                     </Text>
                 </Group>
             </Stack>
@@ -38,19 +40,19 @@ const ServiceImageCard = ({ service }) => {
             <Divider my="md" />
 
             <Group justify="space-between">
-                <Tooltip label="Home Delivery Availability">
+                <Tooltip label={t('delivery_availability')}>
                     <Group gap={6}>
                         <HiOutlineTruck size={18} className={service.isDeliveryAvailable ? "text-green-500" : "text-slate-300"} />
                         <Text size="xs" fw={500} c={service.isDeliveryAvailable ? "green" : "dimmed"}>
-                            Delivery: {service.isDeliveryAvailable ? "Yes" : "No"}
+                            {t('delivery')}: {service.isDeliveryAvailable ? t('yes') : t('no')}
                         </Text>
                     </Group>
                 </Tooltip>
-                <Tooltip label="Discount Card Usage">
+                <Tooltip label={t('discount_card_usage')}>
                     <Group gap={6}>
                         <HiOutlineCreditCard size={18} className={service.canUseDiscountCard ? "text-blue-500" : "text-slate-300"} />
                         <Text size="xs" fw={500} c={service.canUseDiscountCard ? "blue" : "dimmed"}>
-                            Discount Card: {service.canUseDiscountCard ? "Yes" : "No"}
+                            {t('discount_card')}: {service.canUseDiscountCard ? t('yes') : t('no')}
                         </Text>
                     </Group>
                 </Tooltip>

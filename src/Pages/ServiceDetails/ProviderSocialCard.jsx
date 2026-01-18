@@ -1,12 +1,14 @@
 import { Card, Text, Group, ActionIcon, Tooltip } from "@mantine/core";
 import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const ProviderSocialCard = ({ service }) => {
+    const { t } = useTranslation();
     return (
         <Card shadow="sm" padding="md" radius="lg" withBorder className="bg-white dark:bg-slate-900">
             <Text fw={700} mb="md" className="text-slate-800 dark:text-white flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-main"></span>
-                Provider Social Media
+                {t('provider_social_media')}
             </Text>
             {service.facebookUrl || service.instagramUrl || service.tikTokUrl || service.youTubeUrl ? (
                 <Group justify="center" gap="lg">
@@ -41,7 +43,7 @@ const ProviderSocialCard = ({ service }) => {
                 </Group>
             ) : (
                 <Text size="sm" c="dimmed" ta="center" fs="italic">
-                    No social media links provided
+                    {t('no_social_links')}
                 </Text>
             )}
         </Card>

@@ -1,40 +1,28 @@
-import { Button, Tabs, Badge } from "@mantine/core";
-import { HiOutlinePlus } from "react-icons/hi2";
+import { Tabs, Badge } from "@mantine/core";
+import { SUBSCRIPTION_TABS } from "./customersConstants";
 import { useTranslation } from "react-i18next";
 
-const VideosHeader = ({ section, onSectionChange, totalCount, onUploadClick }) => {
+const CustomersHeader = ({ subscriptionFilter, onFilterChange, totalCount }) => {
     const { t } = useTranslation();
     return (
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-            <Button
-                leftSection={<HiOutlinePlus size={20} />}
-                onClick={onUploadClick}
-                variant="filled"
-                color="#50C5C8"
-                radius="md"
-                size="md"
-                className="!font-semibold shadow-sm hover:shadow-md transition-shadow"
-            >
-                {t('upload_new_video')}
-            </Button>
-
             <Tabs
-                value={section}
-                onChange={onSectionChange}
+                value={subscriptionFilter}
+                onChange={onFilterChange}
                 color="#50C5C8"
                 variant="pills"
                 radius="md"
             >
                 <Tabs.List className="bg-white dark:bg-slate-900 p-1 rounded-md border border-gray-100 dark:border-slate-700 w-fit gap-1 h-11 flex items-center">
-                    <Tabs.Tab value="all" className="dark:hover:bg-slate-800 h-full">
-                        {t('all_videos')}
-                    </Tabs.Tab>
-                    <Tabs.Tab value="top" className="dark:hover:bg-slate-800 h-full">
-                        {t('top_section')}
-                    </Tabs.Tab>
-                    <Tabs.Tab value="down" className="dark:hover:bg-slate-800 h-full">
-                        {t('bottom_section')}
-                    </Tabs.Tab>
+                    {SUBSCRIPTION_TABS?.map((tab) => (
+                        <Tabs.Tab
+                            key={tab?.value}
+                            value={tab?.value}
+                            className="dark:hover:bg-slate-800 h-full"
+                        >
+                            {t(tab?.label)}
+                        </Tabs.Tab>
+                    ))}
                 </Tabs.List>
             </Tabs>
 
@@ -56,4 +44,4 @@ const VideosHeader = ({ section, onSectionChange, totalCount, onUploadClick }) =
     );
 };
 
-export default VideosHeader;
+export default CustomersHeader;

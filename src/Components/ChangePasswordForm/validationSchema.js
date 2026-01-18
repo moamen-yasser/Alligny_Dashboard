@@ -1,19 +1,19 @@
 import * as Yup from "yup";
 
-export const changePasswordValidationSchema = Yup.object().shape({
+export const getChangePasswordValidationSchema = (t) => Yup.object().shape({
   current_password: Yup.string()
-    .required("Current password is required"),
+    .required(t('current_password_required')),
 
   new_password: Yup.string()
-    .required("New password is required")
-    .min(8, "Password must be at least 8 characters long")
-    .matches(/[0-9]/, "Password must include at least one number")
-    .matches(/[a-z]/, "Password must include at least one lowercase letter")
-    .matches(/[A-Z]/, "Password must include at least one uppercase letter")
-    .matches(/[$&+,:;=?@#|'<>.^*()%!-]/, "Password must include at least one special character")
-    .notOneOf([Yup.ref('current_password')], "New password cannot be the same as current password"),
+    .required(t('new_password_required'))
+    .min(8, t('password_min_length', { count: 8 }))
+    .matches(/[0-9]/, t('password_number'))
+    .matches(/[a-z]/, t('password_lowercase'))
+    .matches(/[A-Z]/, t('password_uppercase'))
+    .matches(/[$&+,:;=?@#|'<>.^*()%!-]/, t('password_special'))
+    .notOneOf([Yup.ref('current_password')], t('new_password_same_as_current')),
 
   confirm_password: Yup.string()
-    .required("Please confirm your new password")
-    .oneOf([Yup.ref('new_password')], "Passwords must match")
+    .required(t('confirm_password_required'))
+    .oneOf([Yup.ref('new_password')], t('passwords_match'))
 });

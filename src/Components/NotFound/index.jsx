@@ -1,11 +1,13 @@
 import { Title, Text, Button, Container, Group } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function NotFound() {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#F8F8F6] dark:bg-slate-900 px-4 overflow-hidden">
+        <div className="h-full w-full flex items-center justify-center bg-[#F8F8F6] dark:bg-slate-900 overflow-hidden">
             <Container className="text-center relative">
                 {/* Large Background Text */}
                 <div className="absolute inset-0 flex justify-center items-center -top-20 md:-top-32 pointer-events-none select-none opacity-20 dark:opacity-10">
@@ -17,20 +19,19 @@ export default function NotFound() {
                 {/* Content */}
                 <div className="relative z-10">
                     <Title className="text-4xl md:text-6xl font-extrabold text-textSecondColor dark:text-white mb-4 animate-[fadeIn_0.8s_ease-out]">
-                        Oops! You're lost.
+                        {t('not_found_title')}
                     </Title>
                     <Text size="lg" className="max-w-lg mx-auto mb-10 text-gray dark:text-gray-400 font-medium animate-[fadeIn_1s_ease-out]">
-                        The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
-                        Let's get you back on track.
+                        {t('not_found_desc')}
                     </Text>
-                    <Group justify="center" className="animate-[fadeIn_1.2s_ease-out]">
+                    <Group justify="center" mt={20} className="animate-[fadeIn_1.2s_ease-out]">
                         <Button
                             size="xl"
                             radius="xl"
                             className="!bg-gradient-to-r !from-main !to-subMain hover:!shadow-smoothCardHover !transition-all !duration-500 !px-10 !h-14 !text-lg !font-bold"
                             onClick={() => navigate('/')}
                         >
-                            Return Home
+                            {t('return_home')}
                         </Button>
                     </Group>
                 </div>

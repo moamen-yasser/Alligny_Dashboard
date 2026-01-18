@@ -7,7 +7,7 @@ const TableHeader = ({ headers }) => {
                 {headers?.map((head, index) => (
                     <Table.Th
                         key={index}
-                        className="p-2 min-w-[80px] text-left text-main dark:!text-main font-bold text-lg"
+                        className="p-2 min-w-[80px] text-start text-main dark:!text-main font-bold text-lg"
                     >
                         {head}
                     </Table.Th>

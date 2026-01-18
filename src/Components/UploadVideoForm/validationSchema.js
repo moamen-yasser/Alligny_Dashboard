@@ -1,21 +1,21 @@
 import * as Yup from "yup";
 
-export const uploadVideoValidationSchema = Yup.object().shape({
+export const getUploadVideoValidationSchema = (t) => Yup.object().shape({
     video: Yup.mixed()
-        .required("Video file is required")
-        .test("fileSize", "File size must be less than 50MB", (value) => {
+        .required(t("video_required"))
+        .test("fileSize", t("max_file_size"), (value) => {
             if (!value) return false;
             return value.size <= 50 * 1024 * 1024; // 50MB
         })
-        .test("fileType", "Only video files are allowed", (value) => {
+        .test("fileType", t("video_file_only"), (value) => {
             if (!value) return false;
             return value.type.startsWith('video/');
         }),
     description: Yup.string()
-        .required("Description is required")
-        .min(3, "Description must be at least 3 characters")
-        .max(500, "Description must not exceed 500 characters"),
+        .required(t("description_required"))
+        .min(3, t("description_min", { count: 3 }))
+        .max(500, t("description_max", { count: 500 })),
     section: Yup.string()
-        .required("Video position is required")
-        .oneOf(['top', 'down'], "Please select either Up or Down section"),
+        .required(t("video_position_required"))
+        .oneOf(['top', 'down'], t("invalid_position")),
 });
