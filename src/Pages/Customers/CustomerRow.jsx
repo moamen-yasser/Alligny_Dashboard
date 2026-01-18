@@ -25,9 +25,6 @@ const CustomerRow = ({ customer, index, isActivating, currentCustomerId, onActiv
                     <Text fw={700} size="sm" className="text-slate-900 dark:text-white">
                         {`${customer?.firstName || ''} ${customer?.lastName || ''}`.trim() || t('n_a')}
                     </Text>
-                    <Text size="xs" c="dimmed">
-                        {t('id')}: {customer?.id}
-                    </Text>
                 </div>
             </Table.Td>
 
