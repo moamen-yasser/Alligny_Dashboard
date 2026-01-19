@@ -1,4 +1,4 @@
-export const formatDateTime = (dateInput) => {
+export const formatDateTime = (dateInput, language = 'en') => {
     if (!dateInput) return "N/A";
 
     try {
@@ -7,19 +7,23 @@ export const formatDateTime = (dateInput) => {
         // Check if date is valid
         if (isNaN(date.getTime())) return "N/A";
 
-        const month = date.getMonth() + 1; // Months are 0-indexed
-        const day = date.getDate();
-        const year = date.getFullYear();
+        // Format date part in English numerals (DD/MM/YYYY)
+        const datePart = new Intl.DateTimeFormat('en-GB', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+        }).format(date);
 
-        let hours = date.getHours();
-        const minutes = String(date.getMinutes()).padStart(2, '0');
+        // Format time part with localized markers (AM/PM or ص/م) but English numerals
+        const timePart = new Intl.DateTimeFormat(language === 'ar' ? 'ar-EG' : 'en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+            numberingSystem: 'latn'
+        }).format(date);
 
-        // Convert to 12-hour format
-        const period = hours >= 12 ? 'pm' : 'am';
-        hours = hours % 12 || 12; // Convert 0 to 12 for midnight
-        const formattedHours = String(hours).padStart(2, '0');
-
-        return `${day}/${month}/${year}, ${formattedHours}:${minutes} ${period}`;
+        // Return with separator
+        return `${datePart} | ${timePart}`;
     } catch (error) {
         return "N/A";
     }

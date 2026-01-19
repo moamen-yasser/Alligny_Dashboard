@@ -1,58 +1,65 @@
-import { Textarea, FileInput, Radio, Group, Stack, Text } from "@mantine/core";
-import { HiOutlineVideoCamera, HiOutlineArrowUp, HiOutlineArrowDown } from "react-icons/hi2";
-import { getUploadVideoValidationSchema } from "./validationSchema";
-import { useUploadVideoMutation } from "../../Service/Apis/videosApi";
+import { TextInput, Textarea, Radio, Group, Stack, Text } from "@mantine/core";
+import { HiOutlineUserGroup, HiOutlineShieldCheck } from "react-icons/hi2";
+import { getAddNotificationValidationSchema } from "./validationSchema";
+import { useSendUserNotificationMutation, useSendProviderNotificationMutation } from "../../Service/Apis/notificationsApi";
 import { showNotification } from "../../utils/notification";
 import { useTranslation } from "react-i18next";
 
 const DynamicFormFields = () => {
     const { t } = useTranslation();
-    const [uploadVideo, { isLoading }] = useUploadVideoMutation();
+    const [sendUserNotification, { isLoading: isSendingUser }] = useSendUserNotificationMutation();
+    const [sendProviderNotification, { isLoading: isSendingProvider }] = useSendProviderNotificationMutation();
 
     const handleSubmit = async (data) => {
         try {
-            const formData = new FormData();
-            formData.append('VideoFile', data.video);
-            formData.append('Description', data.description);
-            formData.append('Section', data.section);
-
-            await uploadVideo(formData).unwrap();
+            if (data.target === 'User') {
+                await sendUserNotification({
+                    title: data.title,
+                    message: data.message
+                }).unwrap();
+            } else {
+                await sendProviderNotification({
+                    title: data.title,
+                    message: data.message
+                }).unwrap();
+            }
 
             showNotification.success({
-                title: t('video_uploaded_title'),
-                message: t('video_uploaded_desc'),
+                data: {
+                    message: t('operation_success')
+                }
             });
         } catch (error) {
-            console.error("Error uploading video:", error);
-            showNotification.error(error?.data?.message || t('error_uploading_video'));
+            console.error("Error sending notification:", error);
+            showNotification.error(error);
+            throw error; // Re-throw to prevent modal from closing if someone is catching it
         }
     };
 
     const form = {
         fields: [
             {
-                id: "section",
-                name: "section",
+                id: "target",
+                name: "target",
                 condition: () => true,
                 component: ({ field, error }) => (
-                    <div>
+                    <div className="mb-4">
                         <Text size="sm" fw={500} mb={8} className="dark:text-white">
-                            {t('video_position')} <span className="text-red-500">*</span>
+                            {t('send_to')} <span className="text-red-500">*</span>
                         </Text>
                         <Radio.Group
                             {...field}
                             error={error}
-                            description={t('video_position_desc')}
                         >
-                            <Stack gap="xs" mt={14}>
+                            <Stack gap="xs" mt={10}>
                                 <Radio
-                                    value="top"
+                                    value="User"
                                     label={
                                         <Group gap="xs">
-                                            <HiOutlineArrowUp size={18} className="text-blue-500" />
+                                            <HiOutlineUserGroup size={18} className="text-blue-500" />
                                             <div>
-                                                <Text size="sm" fw={600} className="dark:text-white">{t('top_section')}</Text>
-                                                <Text size="xs" c="dimmed">{t('top_section_desc')}</Text>
+                                                <Text size="sm" fw={600} className="dark:text-white">{t('users')}</Text>
+                                                <Text size="xs" c="dimmed">{t('send_to_users_desc')}</Text>
                                             </div>
                                         </Group>
                                     }
@@ -62,13 +69,13 @@ const DynamicFormFields = () => {
                                     }}
                                 />
                                 <Radio
-                                    value="down"
+                                    value="Provider"
                                     label={
                                         <Group gap="xs">
-                                            <HiOutlineArrowDown size={18} className="text-orange-500" />
+                                            <HiOutlineShieldCheck size={18} className="text-orange-500" />
                                             <div>
-                                                <Text size="sm" fw={600} className="dark:text-white">{t('bottom_section')}</Text>
-                                                <Text size="xs" c="dimmed">{t('bottom_section_desc')}</Text>
+                                                <Text size="sm" fw={600} className="dark:text-white">{t('providers')}</Text>
+                                                <Text size="xs" c="dimmed">{t('send_to_providers_desc')}</Text>
                                             </div>
                                         </Group>
                                     }
@@ -83,17 +90,15 @@ const DynamicFormFields = () => {
                 ),
             },
             {
-                id: "video",
-                name: "video",
+                id: "title",
+                name: "title",
                 condition: () => true,
-                component: ({ field, error, setValue }) => (
-                    <FileInput
-                        label={t('video_file')}
-                        placeholder={t('select_video_file')}
-                        accept="video/mp4,video/quicktime,video/x-msvideo"
-                        leftSection={<HiOutlineVideoCamera size={18} />}
+                component: ({ field, error }) => (
+                    <TextInput
+                        {...field}
+                        label={t('notification_title')}
+                        placeholder={t('enter_notification_title')}
                         error={error}
-                        onChange={(file) => setValue('video', file)}
                         classNames={{
                             input: "!py-4 !rounded-lg dark:!bg-slate-800 dark:!text-white focus:!border-main transition-colors"
                         }}
@@ -102,14 +107,14 @@ const DynamicFormFields = () => {
                 ),
             },
             {
-                id: "description",
-                name: "description",
+                id: "message",
+                name: "message",
                 condition: () => true,
                 component: ({ field, error }) => (
                     <Textarea
                         {...field}
-                        label={t('description')}
-                        placeholder={t('enter_video_description')}
+                        label={t('notification_message')}
+                        placeholder={t('enter_notification_message')}
                         error={error}
                         minRows={5}
                         maxRows={10}
@@ -122,13 +127,13 @@ const DynamicFormFields = () => {
                 ),
             },
         ],
-        validationSchema: getUploadVideoValidationSchema(t),
+        validationSchema: getAddNotificationValidationSchema(t),
         onSubmit: handleSubmit,
-        isLoading: isLoading,
+        isLoading: isSendingUser || isSendingProvider,
         defaultValues: {
-            video: null,
-            description: "",
-            section: "top",
+            target: "User",
+            title: "",
+            message: "",
         },
     };
 

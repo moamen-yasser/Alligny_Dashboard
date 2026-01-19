@@ -5,7 +5,7 @@ import { getMappedValue } from "../../utils/serviceMappings";
 import { useTranslation } from "react-i18next";
 
 const ServiceImageCard = ({ service }) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     return (
         <Card shadow="sm" padding="md" radius="lg" withBorder className="bg-white dark:bg-slate-900 overflow-hidden">
             <Card.Section className="bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center overflow-hidden">
@@ -25,7 +25,7 @@ const ServiceImageCard = ({ service }) => {
                 </Text>
                 <Group gap="xs">
                     <HiCalendar className="text-main" size={16} />
-                    <Text size="sm" c="dimmed">{t('submitted')}: {formatDateTime(service.createdAt)}</Text>
+                    <Text size="sm" c="dimmed">{t('submitted')}: {formatDateTime(service.createdAt, i18n.language)}</Text>
                 </Group>
                 <Group gap="xs">
                     <ThemeIcon variant="light" color="main" size="sm" radius="xl">

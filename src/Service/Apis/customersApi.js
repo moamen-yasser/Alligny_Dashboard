@@ -1,6 +1,6 @@
-import { customerBaseApi } from '../customerBaseApi';
+import { userBaseApi } from '../userBaseApi';
 
-export const customerApi = customerBaseApi.injectEndpoints({
+export const customerApi = userBaseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllCustomers: builder.query({
             query: (params) => ({

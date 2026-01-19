@@ -15,11 +15,13 @@ export const useVideos = (searchQuery) => {
     const [playerModalOpened, { open: openPlayerModal, close: closePlayerModal }] = useDisclosure(false);
     const [selectedVideo, setSelectedVideo] = useState(null);
 
+    const debouncedSearch = useDebounce(searchQuery, 500) || '';
+
     // Fetch videos
     const { data: allVideos, isLoading, refetch } = useGetAllVideosQuery({
         pageNumber: activePage,
         pageSize: 6,
-        search: useDebounce(searchQuery, 500) || '',
+        search: debouncedSearch && debouncedSearch.trim() !== "" ? debouncedSearch : undefined,
         section: section === 'all' ? '' : section,
     });
 

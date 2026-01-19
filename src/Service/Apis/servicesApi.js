@@ -1,6 +1,6 @@
-import { baseApi } from '../baseApi';
+import { providerBaseApi } from '../providerBaseApi';
 
-export const servicesApi = baseApi.injectEndpoints({
+export const servicesApi = providerBaseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllServices: builder.query({
             query: (params) => ({

@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 
 const CustomerProfileCard = ({ customer }) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const getInitials = () => {
         const firstName = customer?.firstName || "";
         const lastName = customer?.lastName || "";
@@ -106,7 +106,7 @@ const CustomerProfileCard = ({ customer }) => {
                     <Group gap="xs" className="text-slate-600 dark:text-slate-400">
                         <HiCalendar className="text-main" size={18} />
                         <Text size="sm" fw={500}>
-                            {t('member_since')} {new Date(customer.subscriptionEndDate).toLocaleDateString(i18n.language === 'ar' ? 'ar-EG' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
+                            {t('member_since')} <span dir="ltr">{formatDateTime(customer.subscriptionEndDate, i18n.language)}</span>
                         </Text>
                     </Group>
                 )}

@@ -4,11 +4,10 @@ import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 import TableActions from "../../Components/Actions.jsx/index.jsx";
 import { formatDateTime } from "../../utils/formatDateTime";
 import { useTranslation } from "react-i18next";
-import i18n from "i18next";
 
 const ServiceRow = ({ service, index, loadingServiceId, loadingAction, onActionClick }) => {
     const navigate = useNavigate();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const isAr = i18n.language === 'ar';
 
     return (
@@ -49,7 +48,7 @@ const ServiceRow = ({ service, index, loadingServiceId, loadingAction, onActionC
                 {service?.name || "N/A"}
             </Table.Td>
             <Table.Td className="px-4 py-2 text-slate-900 dark:text-white font-semibold text-start">
-                {formatDateTime(service?.dateSubmitted)}
+                {formatDateTime(service?.dateSubmitted, i18n.language)}
             </Table.Td>
             <Table.Td className="px-4 py-2 text-start">
                 <span className={`font-semibold ${service?.status === 'Approved'
