@@ -129,12 +129,12 @@ const ServiceBranchesCard = ({ service }) => {
                                                 {hour?.isOpen ? (
                                                     <Group gap={4} wrap="nowrap">
                                                         <Text size="xs" c="dimmed">{t('from')}</Text>
-                                                        <Text size="xs" c="main" fw={600} className="dark:text-main">
+                                                        <Text size="xs" c="main" fw={600} className="dark:text-main" dir="ltr">
                                                             {formatTime(hour?.fromTime)}
                                                         </Text>
                                                         <span className="text-[10px] text-slate-400 mx-0.5">•</span>
                                                         <Text size="xs" c="dimmed">{t('to')}</Text>
-                                                        <Text size="xs" c="main" fw={600} className="dark:text-main">
+                                                        <Text size="xs" c="main" fw={600} className="dark:text-main" dir="ltr">
                                                             {formatTime(hour?.toTime)}
                                                         </Text>
                                                     </Group>

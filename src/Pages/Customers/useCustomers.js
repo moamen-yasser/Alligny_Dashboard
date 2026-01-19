@@ -14,11 +14,13 @@ export const useCustomers = (searchQuery) => {
     const [deleteOpened, { open: openDelete, close: closeDelete }] = useDisclosure(false);
     const [currentCustomerId, setCurrentCustomerId] = useState(null);
 
+    const debouncedSearch = useDebounce(searchQuery, 500) || '';
+    
     // Fetch customers 
     const { data: allCustomers, isLoading, refetch } = useGetAllCustomersQuery({
         pageNumber: activePage,
         pageSize: 10,
-        search: useDebounce(searchQuery, 500) || '',
+        search: debouncedSearch && debouncedSearch.trim() !== "" ? debouncedSearch : undefined,
         isSubscribed: subscriptionFilter === "all" ? undefined : subscriptionFilter === "subscribed" ? true : false,
     });
 

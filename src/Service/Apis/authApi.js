@@ -1,6 +1,6 @@
-import { baseApi } from '../baseApi';
+import { providerBaseApi } from '../providerBaseApi';
 
-export const authApi = baseApi.injectEndpoints({
+export const authApi = providerBaseApi.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (params) => ({

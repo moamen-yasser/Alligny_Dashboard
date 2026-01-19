@@ -13,6 +13,7 @@ const ServiceDetails = lazy(() => import('../Pages/ServiceDetails'));
 const Customers = lazy(() => import('../Pages/Customers'));
 const CustomerDetails = lazy(() => import('../Pages/CustomerDetails'));
 const Videos = lazy(() => import('../Pages/Videos'));
+const Notifications = lazy(() => import('../Pages/Notifications'));
 const NotFound = lazy(() => import('../Components/NotFound/index.jsx'));
 
 export default function Routers() {
@@ -63,6 +64,7 @@ export default function Routers() {
                         <Route path="customers" element={<Customers />} />
                         <Route path="customer/details" element={<CustomerDetails />} />
                         <Route path="videos" element={<Videos />} />
+                        <Route path="notifications" element={<Notifications />} />
 
                         {/* Inner Dashboard 404 or Redirect */}
                         <Route path="*" element={<NotFound />} />

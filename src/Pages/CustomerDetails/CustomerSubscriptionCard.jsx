@@ -4,7 +4,7 @@ import { formatDateTime } from "../../utils/formatDateTime";
 import { useTranslation } from "react-i18next";
 
 const CustomerSubscriptionCard = ({ customer, className = "" }) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const isSubscribed = customer?.isSubscribed;
 
     // Parse and validate date
@@ -85,7 +85,7 @@ const CustomerSubscriptionCard = ({ customer, className = "" }) => {
                                 {isExpired ? t('expired_on') : t('valid_until')}
                             </Text>
                             <Text fw={600} size="sm" className="text-slate-700 dark:text-slate-200">
-                                {formatDateTime(customer?.subscriptionEndDate)}
+                                <span dir="ltr">{formatDateTime(customer?.subscriptionEndDate, i18n.language)}</span>
                             </Text>
                         </div>
                     </Group>

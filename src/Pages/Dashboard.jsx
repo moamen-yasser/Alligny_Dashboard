@@ -2,13 +2,11 @@ import SharedTabs from '../Menu/SharedTabs';
 import { useNavigate, useParams, Outlet, useLocation } from "react-router-dom";
 import { useMediaQuery } from "@mantine/hooks";
 import Logo from '../Components/Logo';
-import { PiUsersThree } from "react-icons/pi";
-import { TbCloudUpload } from "react-icons/tb";
 import { IoIosArrowBack } from "react-icons/io";
 import { useState, useEffect } from 'react';
 import { FaDesktop, FaExclamationCircle } from 'react-icons/fa';
 import NavBar from '../Header/NavBar';
-import { MdOutlineMedicalServices } from 'react-icons/md';
+import { HiOutlineBell, HiOutlineSquaresPlus, HiOutlineUsers, HiOutlineVideoCamera } from 'react-icons/hi2';
 import { useTranslation } from 'react-i18next';
 
 const Dashboard = () => {
@@ -38,19 +36,25 @@ const Dashboard = () => {
             id: 1,
             value: "services",
             label: t('services'),
-            icon: <MdOutlineMedicalServices size={28} />,
+            icon: <HiOutlineSquaresPlus size={28} />,
         },
         {
             id: 2,
             value: "customers",
             label: t('customers'),
-            icon: <PiUsersThree size={28} />,
+            icon: <HiOutlineUsers size={28} />,
         },
         {
             id: 3,
             value: "videos",
             label: t('videos'),
-            icon: <TbCloudUpload size={28} />,
+            icon: <HiOutlineVideoCamera size={28} />,
+        },
+        {
+            id: 4,
+            value: "notifications",
+            label: t('notifications'),
+            icon: <HiOutlineBell size={28} />,
         },
     ];
 

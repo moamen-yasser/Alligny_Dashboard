@@ -77,7 +77,7 @@ const CustomerRow = ({
                     </Badge>
                     {isSubscribed && customer?.subscriptionEndDate && !isNaN(new Date(customer.subscriptionEndDate).getTime()) && (
                         <Text size="xs" c="dimmed">
-                            {t('valid_until')}: {formatDateTime(customer.subscriptionEndDate)}
+                            {t('valid_until')}: <span dir="ltr">{formatDateTime(customer.subscriptionEndDate, i18n.language)}</span>
                         </Text>
                     )}
                 </div>
