@@ -13,6 +13,22 @@ export const serviceMappings = {
     "veterinarian": { en: "Veterinarian", ar: "طبيب بيطري" },
     "veterinary_pharmacy": { en: "Veterinary Pharmacy or Animal Supplies", ar: "صيدلية بيطري أو مستلزمات حيوان" },
 
+    // Animals
+    "cat": { en: "Cat", ar: "قطة" },
+    "dog": { en: "Dog", ar: "كلب" },
+    "bird": { en: "Bird", ar: "طائر" },
+    "fish": { en: "Fish", ar: "سمك" },
+    "hamster": { en: "Hamster", ar: "هامستر" },
+    "rabbit": { en: "Rabbit", ar: "أرنب" },
+    "tayur": { en: "Birds", ar: "طيور" },
+    "pigeon": { en: "Pigeon", ar: "حمام" },
+    "donkey": { en: "Donkey", ar: "حمار" },
+    "turtle": { en: "Turtle", ar: "سلحفاة" },
+    "cowbuffalo": { en: "Cow / Buffalo", ar: "بقرة/جاموس" },
+    "sheepgoat": { en: "Sheep / Goat", ar: "خروف/ماعز" },
+    "boy": { en: "Boy", ar: "ولد" },
+    "girl": { en: "Girl", ar: "بنت" },
+
     "specialization": { en: "Specialization", ar: "التخصص" },
     "category": { en: "Category", ar: "الفئة" },
 

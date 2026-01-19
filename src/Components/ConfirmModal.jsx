@@ -12,7 +12,7 @@ export function ConfirmModal({
   isLoading
 }) {
   const { t } = useTranslation();
-  const isApprove = actionText?.toLowerCase() === "approve";
+  const isApprove = actionText?.toLowerCase() === "approve" || actionText?.toLowerCase() === "activate";
 
   return (
     <Modal

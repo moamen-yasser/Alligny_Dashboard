@@ -1,23 +1,27 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useGetCustomerQuery, useActiveCustomerMutation } from "../../Service/Apis/customersApi";
+import { useGetCustomerQuery, useActiveCustomerMutation, useDeleteCustomerMutation } from "../../Service/Apis/customersApi";
 import { useDisclosure } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
+import { showNotification } from "../../utils/notification";
+import { useTranslation } from "react-i18next";
 
 export const useCustomerDetails = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const [searchParams] = useSearchParams();
     const customerId = searchParams.get("id");
 
     // Modal state
     const [opened, { open, close }] = useDisclosure(false);
+    const [deleteOpened, { open: openDelete, close: closeDelete }] = useDisclosure(false);
 
     // Fetch customer data
     const { data: customer, isLoading, isError, error } = useGetCustomerQuery(customerId, {
         skip: !customerId,
     });
 
-    // Activate customer mutation
+    // Mutations
     const [activateCustomer, { isLoading: isActivating }] = useActiveCustomerMutation();
+    const [deleteCustomer, { isLoading: isDeleting }] = useDeleteCustomerMutation();
 
     // Calculate subscription status
     const getSubscriptionStatus = () => {
@@ -30,7 +34,7 @@ export const useCustomerDetails = () => {
         const daysRemaining = Math.ceil((endDate - now) / (1000 * 60 * 60 * 24));
 
         if (daysRemaining < 0) return "Expired";
-        if (daysRemaining <= 7) return "Expiring Soon";
+        if (daysRemaining <= 10) return "Expiring Soon";
         return "Active";
     };
 
@@ -57,20 +61,35 @@ export const useCustomerDetails = () => {
     const handleConfirmActivation = async () => {
         try {
             await activateCustomer({ id: customerId }).unwrap();
-            notifications.show({
-                title: "Success!",
-                message: `Subscription activated for ${customer?.firstName} ${customer?.lastName}`,
-                color: "green",
-                autoClose: 3000,
+            showNotification.success({
+                data: {
+                    message: t('subscription_activated_desc')
+                }
             });
             close();
         } catch (error) {
-            notifications.show({
-                title: "Error",
-                message: error?.data?.message || "Failed to activate subscription",
-                color: "red",
-                autoClose: 4000,
+            showNotification.error(error);
+        }
+    };
+
+    // Handle delete button click
+    const handleDeleteClick = () => {
+        openDelete();
+    };
+
+    // Handle confirm deletion
+    const handleConfirmDeletion = async () => {
+        try {
+            await deleteCustomer({ id: customerId }).unwrap();
+            showNotification.success({
+                data: {
+                    message: t('operation_success')
+                }
             });
+            closeDelete();
+            navigate('/dashboard/customers');
+        } catch (error) {
+            showNotification.error(error);
         }
     };
 
@@ -85,8 +104,13 @@ export const useCustomerDetails = () => {
         statusColor: getStatusColor(),
         opened,
         close,
+        deleteOpened,
+        closeDelete,
         isActivating,
+        isDeleting,
         handleActivateClick,
         handleConfirmActivation,
+        handleDeleteClick,
+        handleConfirmDeletion,
     };
 };

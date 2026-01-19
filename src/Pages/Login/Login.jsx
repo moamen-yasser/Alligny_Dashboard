@@ -45,16 +45,37 @@ const Login = () => {
         } catch (err) {
             console.error('Login Failed:', err);
 
+            let errorMessage = t('login_failed');
+
+            // Helper to translate common error messages
+            const getTranslatedMessage = (message) => {
+                if (!message) return t('something_went_wrong');
+                const msg = message.toLowerCase();
+                if (msg.includes('invalid credentials') || msg.includes('password') || msg.includes('email')) {
+                    return t('invalid_credentials');
+                } else if (msg.includes('not found')) {
+                    return t('user_not_found');
+                } else if (msg.includes('disabled')) {
+                    return t('account_disabled');
+                }
+                return message;
+            };
+
             if (err?.data?.errors) {
                 Object.keys(err.data.errors).forEach((key) => {
-                    setError(key, { type: 'manual', message: err.data.errors[key] });
+                    const translatedMsg = getTranslatedMessage(err.data.errors[key]);
+                    setError(key, { type: 'manual', message: translatedMsg });
                 });
+                errorMessage = t('operation_failed'); // General message if there are specific field errors
             } else if (err?.data?.message) {
-                setError('email', { type: 'manual', message: err.data.message });
-                setError('password', { type: 'manual', message: err.data.message });
+                errorMessage = getTranslatedMessage(err.data.message);
+                setError('email', { type: 'manual', message: errorMessage });
+                setError('password', { type: 'manual', message: errorMessage });
             }
 
-            showNotification.error(err || t('login_failed'));
+            showNotification.error({
+                data: { message: errorMessage }
+            });
         }
     };
 

@@ -2,6 +2,7 @@ import { Container, Grid, Stack } from "@mantine/core";
 import Loader from "../../Components/Loader";
 import NotFound from "../../Components/NotFound";
 import { ConfirmModal } from "../../Components/ConfirmModal";
+import { useTranslation } from "react-i18next";
 
 // Import custom hook
 import { useCustomerDetails } from "./useCustomerDetails";
@@ -14,6 +15,7 @@ import CustomerSubscriptionCard from "./CustomerSubscriptionCard";
 import FamilyMembersCard from "./FamilyMembersCard";
 
 const CustomerDetails = () => {
+    const { t } = useTranslation();
     const {
         customer,
         isLoading,
@@ -23,9 +25,14 @@ const CustomerDetails = () => {
         statusColor,
         opened,
         close,
+        deleteOpened,
+        closeDelete,
         isActivating,
+        isDeleting,
         handleActivateClick,
         handleConfirmActivation,
+        handleDeleteClick,
+        handleConfirmDeletion,
     } = useCustomerDetails();
 
     // Loading State
@@ -52,6 +59,8 @@ const CustomerDetails = () => {
                 statusColor={statusColor}
                 onActivateClick={handleActivateClick}
                 isActivating={isActivating}
+                onDeleteClick={handleDeleteClick}
+                isDeleting={isDeleting}
             />
 
             {/* Main Content Grid */}
@@ -75,15 +84,27 @@ const CustomerDetails = () => {
                 </Grid.Col>
             </Grid>
 
-            {/* Confirmation Modal */}
+            {/* Activate Modal */}
             <ConfirmModal
                 opened={opened}
                 close={close}
-                title="Activate Subscription"
-                description={`Are you sure you want to activate subscription for "${customer?.firstName} ${customer?.lastName}"?`}
+                title={t('activate_subscription')}
+                description={t('activate_subscription_desc')}
                 handleConfirm={handleConfirmActivation}
-                actionText="Approve"
+                actionText="activate"
                 isLoading={isActivating}
+            />
+
+            {/* Delete Modal */}
+            <ConfirmModal
+                opened={deleteOpened}
+                close={closeDelete}
+                title={t('delete')}
+                description={t('delete_customer_desc')}
+                handleConfirm={handleConfirmDeletion}
+                actionText="delete"
+                isLoading={isDeleting}
+                color="red"
             />
         </Container>
     );

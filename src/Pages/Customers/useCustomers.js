@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
-import { useGetAllCustomersQuery, useActiveCustomerMutation } from '../../Service/Apis/customersApi';
+import { useGetAllCustomersQuery, useActiveCustomerMutation, useDeleteCustomerMutation } from '../../Service/Apis/customersApi';
 import { showNotification } from '../../utils/notification';
 import { useUrlPagination } from '../../utils/useUrlPagination';
 import { useDebounce } from '../../utils/useDebounce';
@@ -11,6 +11,7 @@ export const useCustomers = (searchQuery) => {
     const [activePage, setActivePage] = useUrlPagination("page", 1);
     const [subscriptionFilter, setSubscriptionFilter] = useState('all');
     const [opened, { open, close }] = useDisclosure(false);
+    const [deleteOpened, { open: openDelete, close: closeDelete }] = useDisclosure(false);
     const [currentCustomerId, setCurrentCustomerId] = useState(null);
 
     // Fetch customers 
@@ -21,8 +22,9 @@ export const useCustomers = (searchQuery) => {
         isSubscribed: subscriptionFilter === "all" ? undefined : subscriptionFilter === "subscribed" ? true : false,
     });
 
-    // Activate subscription mutation
+    // Mutations
     const [activateSubscription, { isLoading: isActivating }] = useActiveCustomerMutation();
+    const [deleteCustomer, { isLoading: isDeleting }] = useDeleteCustomerMutation();
 
     // Handlers
     const handleSubscriptionFilterChange = (value) => {
@@ -39,14 +41,36 @@ export const useCustomers = (searchQuery) => {
         try {
             await activateSubscription({ id: currentCustomerId }).unwrap();
             showNotification.success({
-                title: t('subscription_activated_title'),
-                message: t('subscription_activated_desc'),
+                data: {
+                    message: t('subscription_activated_desc')
+                }
             });
             close();
             refetch();
         } catch (error) {
             console.error('Error activating subscription:', error);
-            showNotification.error(error?.data?.message || t('error_activating_subscription'));
+            showNotification.error(error);
+        }
+    };
+
+    const handleDeleteClick = (id) => {
+        setCurrentCustomerId(id);
+        openDelete();
+    };
+
+    const handleConfirmDelete = async () => {
+        try {
+            await deleteCustomer({ id: currentCustomerId }).unwrap();
+            showNotification.success({
+                data: {
+                    message: t('operation_success')
+                }
+            });
+            closeDelete();
+            refetch();
+        } catch (error) {
+            console.error('Error deleting customer:', error);
+            showNotification.error(error);
         }
     };
 
@@ -56,12 +80,17 @@ export const useCustomers = (searchQuery) => {
         subscriptionFilter,
         opened,
         close,
+        deleteOpened,
+        closeDelete,
         currentCustomerId,
         isActivating,
+        isDeleting,
         allCustomers,
         isLoading,
         handleSubscriptionFilterChange,
         handleActivateClick,
         handleConfirmActivate,
+        handleDeleteClick,
+        handleConfirmDelete,
     };
 };

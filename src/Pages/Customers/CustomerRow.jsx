@@ -1,5 +1,5 @@
-import { Table, Text, Badge, Button, Tooltip } from "@mantine/core";
-import { HiOutlineCheckCircle, HiOutlineClock } from "react-icons/hi2";
+import { Table, Text, Badge, Button, Tooltip, Group, ActionIcon } from "@mantine/core";
+import { HiOutlineCheckCircle, HiOutlineClock, HiOutlineTrash } from "react-icons/hi2";
 import { formatDateTime } from "../../utils/formatDateTime";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft, MdContentCopy } from "react-icons/md";
 import { notifications } from "@mantine/notifications";
@@ -7,7 +7,15 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 
-const CustomerRow = ({ customer, index, isActivating, currentCustomerId, onActivateClick }) => {
+const CustomerRow = ({
+    customer,
+    index,
+    isActivating,
+    isDeleting,
+    currentCustomerId,
+    onActivateClick,
+    onDeleteClick
+}) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const isAr = i18n.language === 'ar';
@@ -62,7 +70,7 @@ const CustomerRow = ({ customer, index, isActivating, currentCustomerId, onActiv
                     <Badge
                         variant="light"
                         color={isSubscribed ? "green" : "gray"}
-                        size="md"
+                        size="lg"
                         leftSection={isSubscribed ? <HiOutlineCheckCircle size={14} /> : <HiOutlineClock size={14} />}
                     >
                         {isSubscribed ? t('active') : t('inactive')}
@@ -100,7 +108,7 @@ const CustomerRow = ({ customer, index, isActivating, currentCustomerId, onActiv
                         </Badge>
                     </Tooltip>
                 ) : (
-                    <Text size="sm" c="dimmed">
+                    <Text size="sm" c="dimmed" className="!cursor-default">
                         {t('no_code')}
                     </Text>
                 )}
@@ -108,32 +116,57 @@ const CustomerRow = ({ customer, index, isActivating, currentCustomerId, onActiv
 
             {/* Actions */}
             <Table.Td className="px-4 py-2 text-start">
-                {!isSubscribed ? (
-                    <Button
-                        variant="light"
-                        color="green"
-                        size="sm"
-                        radius="md"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onActivateClick(customer.id);
-                        }}
-                        loading={isActivating && currentCustomerId === customer.id}
-                        loaderProps={{ type: "dots" }}
-                        disabled={isActivating}
-                    >
-                        {t('activate')}
-                    </Button>
-                ) : <Button
-                    variant="transparent"
-                    color="green"
-                    size="sm"
-                    radius="md"
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    {t('activated')}
-                </Button>
-                }
+                <Group gap="xs" wrap="nowrap" justify="start" align="center">
+                    {!isSubscribed ? (
+                        <Button
+                            variant="light"
+                            color="green"
+                            size="sm"
+                            radius="md"
+                            className="!h-9 !w-[130px]"
+                            leftSection={<HiOutlineClock size={16} />}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onActivateClick(customer.id);
+                            }}
+                            loading={isActivating && currentCustomerId === customer.id}
+                            loaderProps={{ type: "dots" }}
+                            disabled={isActivating || (isDeleting && currentCustomerId === customer.id)}
+                        >
+                            {t('activate')}
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="filled"
+                            color="green"
+                            size="sm"
+                            radius="md"
+                            className="!h-9 !w-[130px] !cursor-default"
+                            onClick={(e) => e.stopPropagation()}
+                            leftSection={<HiOutlineCheckCircle size={16} />}
+                        >
+                            {t('activated')}
+                        </Button>
+                    )}
+
+                    <Tooltip label={t('delete')} position="top">
+                        <ActionIcon
+                            variant="light"
+                            color="red"
+                            size="lg"
+                            radius="md"
+                            className="!h-9 !w-9"
+                            loading={isDeleting && currentCustomerId === customer.id}
+                            disabled={isDeleting || (isActivating && currentCustomerId === customer.id)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onDeleteClick(customer.id);
+                            }}
+                        >
+                            <HiOutlineTrash size={20} />
+                        </ActionIcon>
+                    </Tooltip>
+                </Group>
             </Table.Td>
             <Table.Td className="px-4 py-2 text-start" onClick={() => navigate(`/dashboard/customer/details?id=${customer?.id}`)}>
                 {isAr ? <MdKeyboardArrowLeft size={20} className="text-main" /> : <MdKeyboardArrowRight size={20} className="text-main" />}

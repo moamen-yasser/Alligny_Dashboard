@@ -15,13 +15,18 @@ const Customers = () => {
         subscriptionFilter,
         opened,
         close,
+        deleteOpened,
+        closeDelete,
         currentCustomerId,
         isActivating,
+        isDeleting,
         allCustomers,
         isLoading,
         handleSubscriptionFilterChange,
         handleActivateClick,
         handleConfirmActivate,
+        handleDeleteClick,
+        handleConfirmDelete,
     } = useCustomers(searchQuery);
 
     return (
@@ -39,20 +44,35 @@ const Customers = () => {
                     activePage={activePage}
                     totalPages={allCustomers?.totalPages}
                     isActivating={isActivating}
+                    isDeleting={isDeleting}
                     currentCustomerId={currentCustomerId}
                     onActivateClick={handleActivateClick}
+                    onDeleteClick={handleDeleteClick}
                     onPageChange={setActivePage}
                 />
             </>
 
+            {/* Activate Modal */}
             <ConfirmModal
                 opened={opened}
                 close={close}
                 title={t('activate_subscription')}
                 description={t('activate_subscription_desc')}
                 handleConfirm={handleConfirmActivate}
-                actionText="approve"
+                actionText="activate"
                 isLoading={isActivating && currentCustomerId}
+            />
+
+            {/* Delete Modal */}
+            <ConfirmModal
+                opened={deleteOpened}
+                close={closeDelete}
+                title={t('delete')}
+                description={t('delete_customer_desc')}
+                handleConfirm={handleConfirmDelete}
+                actionText="delete"
+                isLoading={isDeleting && currentCustomerId}
+                color="red"
             />
         </>
     );

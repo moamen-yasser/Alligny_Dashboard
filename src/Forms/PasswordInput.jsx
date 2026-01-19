@@ -2,8 +2,10 @@ import { useState, useMemo } from 'react';
 import { TextInput, Progress, Group } from '@mantine/core';
 import { Controller } from 'react-hook-form';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
+import { useTranslation } from 'react-i18next';
 
 const PasswordInput = ({ control, name, placeholder, error, label }) => {
+    const { t } = useTranslation();
     const [passwordVisibility, setPasswordVisibility] = useState(false);
 
     const togglePasswordVisibility = () => {
@@ -11,11 +13,11 @@ const PasswordInput = ({ control, name, placeholder, error, label }) => {
     };
 
     const requirements = useMemo(() => [
-        { re: /[0-9]/, label: "Includes number" },
-        { re: /[a-z]/, label: "Includes lowercase letter" },
-        { re: /[A-Z]/, label: "Includes uppercase letter" },
-        { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: "Includes special symbol" },
-    ], []);
+        { re: /[0-9]/, label: t('includes_number') },
+        { re: /[a-z]/, label: t('includes_lowercase') },
+        { re: /[A-Z]/, label: t('includes_uppercase') },
+        { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: t('includes_special_symbol') },
+    ], [t]);
 
     const getStrength = (password) => {
         if (password.length < 8) return 10;

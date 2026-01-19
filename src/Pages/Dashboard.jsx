@@ -126,6 +126,7 @@ const Dashboard = () => {
                         <SharedTabs
                             tabValue={currentTab}
                             onChange={(value) => {
+                                setSearchQuery("");
                                 navigate(`/dashboard/${value}`);
                                 if (isMobileScreen) setIsSidebarOpen(false);
                             }}
