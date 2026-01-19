@@ -1,5 +1,5 @@
-import { Group, Stack, Text, Badge, ActionIcon, Button } from "@mantine/core";
-import { HiArrowLeft, HiArrowRight, HiOutlineCheckCircle } from "react-icons/hi2";
+import { Group, Stack, Text, Badge, ActionIcon, Button, Tooltip } from "@mantine/core";
+import { HiArrowLeft, HiArrowRight, HiOutlineCheckCircle, HiOutlineTrash } from "react-icons/hi2";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 
@@ -9,7 +9,9 @@ const CustomerHeader = ({
     subscriptionStatus,
     statusColor,
     onActivateClick,
-    isActivating
+    isActivating,
+    onDeleteClick,
+    isDeleting
 }) => {
     const { t } = useTranslation();
     const canActivate = !customer?.isSubscribed || subscriptionStatus === "Expired";
@@ -66,6 +68,20 @@ const CustomerHeader = ({
                         {t('activate_subscription')}
                     </Button>
                 )}
+
+                <Tooltip label={t('delete')} position="top">
+                    <ActionIcon
+                        variant="light"
+                        color="red"
+                        size="xl"
+                        radius="md"
+                        onClick={onDeleteClick}
+                        loading={isDeleting}
+                        className="h-[42px] w-[42px] transition-all hover:scale-105 active:scale-95 shadow-sm"
+                    >
+                        <HiOutlineTrash size={22} />
+                    </ActionIcon>
+                </Tooltip>
             </Group>
         </Group>
     );

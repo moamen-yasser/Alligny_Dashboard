@@ -8,6 +8,17 @@ const ServiceBranchesCard = ({ service }) => {
     const { t } = useTranslation();
     const days = [t('sun'), t('mon'), t('tue'), t('wed'), t('thu'), t('fri'), t('sat')];
 
+    const formatTime = (time) => {
+        if (!time) return "";
+        let formattedTime = time;
+        if (time.includes("AM")) {
+            formattedTime = time.replace("AM", t('am'));
+        } else if (time.includes("PM")) {
+            formattedTime = time.replace("PM", t('pm'));
+        }
+        return formattedTime;
+    };
+
     return (
         <Card shadow="sm" padding="0" radius="lg" withBorder className="bg-white dark:bg-slate-900 overflow-hidden">
             <div className="p-6 pb-0">
@@ -116,7 +127,17 @@ const ServiceBranchesCard = ({ service }) => {
                                             <Group key={idx} justify="space-between">
                                                 <Text size="xs" fw={500}>{days[hour?.dayOfWeek]}</Text>
                                                 {hour?.isOpen ? (
-                                                    <Text size="xs" c="main" fw={600}>{hour?.fromTime} - {hour?.toTime}</Text>
+                                                    <Group gap={4} wrap="nowrap">
+                                                        <Text size="xs" c="dimmed">{t('from')}</Text>
+                                                        <Text size="xs" c="main" fw={600} className="dark:text-main">
+                                                            {formatTime(hour?.fromTime)}
+                                                        </Text>
+                                                        <span className="text-[10px] text-slate-400 mx-0.5">•</span>
+                                                        <Text size="xs" c="dimmed">{t('to')}</Text>
+                                                        <Text size="xs" c="main" fw={600} className="dark:text-main">
+                                                            {formatTime(hour?.toTime)}
+                                                        </Text>
+                                                    </Group>
                                                 ) : (
                                                     <Text size="xs" c="red" fw={600}>{t('closed')}</Text>
                                                 )}

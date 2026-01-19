@@ -13,8 +13,10 @@ const CustomersTable = ({
     activePage,
     totalPages,
     isActivating,
+    isDeleting,
     currentCustomerId,
     onActivateClick,
+    onDeleteClick,
     onPageChange,
 }) => {
     const { t } = useTranslation();
@@ -43,15 +45,17 @@ const CustomersTable = ({
                     <TableHeader headers={translatedHeaders} />
                     <TableBody
                         data={customers?.items}
-                        colSpan={6}
+                        colSpan={7}
                         renderRow={(customer, index) => (
                             <CustomerRow
                                 key={customer?.id || index}
                                 customer={customer}
                                 index={index}
                                 isActivating={isActivating}
+                                isDeleting={isDeleting}
                                 currentCustomerId={currentCustomerId}
                                 onActivateClick={onActivateClick}
+                                onDeleteClick={onDeleteClick}
                             />
                         )}
                     />
@@ -59,7 +63,7 @@ const CustomersTable = ({
                         activePage={activePage}
                         setPage={onPageChange}
                         total={totalPages}
-                        colSpan={6}
+                        colSpan={7}
                     />
                 </Table>
             </ScrollArea>

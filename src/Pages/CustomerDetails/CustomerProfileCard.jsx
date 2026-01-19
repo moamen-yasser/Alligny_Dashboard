@@ -69,12 +69,6 @@ const CustomerProfileCard = ({ customer }) => {
                     <Text fw={700} size="xl" className="text-slate-800 dark:text-white">
                         {customer?.firstName} {customer?.lastName}
                     </Text>
-                    <Group gap="xs" justify="center" mt={4}>
-                        <HiOutlineIdentification className="text-slate-400" size={16} />
-                        <Text size="sm" c="dimmed" className="font-mono">
-                            {t('id')}: {customer?.id}
-                        </Text>
-                    </Group>
                 </div>
 
                 <Divider />

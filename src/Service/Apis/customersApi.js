@@ -26,11 +26,19 @@ export const customerApi = customerBaseApi.injectEndpoints({
             }),
             invalidatesTags: ['AllCustomers'],
         }),
+        deleteCustomer: builder.mutation({
+            query: ({ id }) => ({
+                url: `/admin/Delete-User/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['AllCustomers'],
+        }),
     }),
 });
 
 export const {
     useGetAllCustomersQuery,
     useGetCustomerQuery,
-    useActiveCustomerMutation
+    useActiveCustomerMutation,
+    useDeleteCustomerMutation,
 } = customerApi;
