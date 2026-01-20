@@ -41,11 +41,9 @@ const NavBar = ({ setSearchQuery, searchQuery, setIsSidebarOpen, isSidebarOpen }
     const handleLogout = async () => {
         try {
             const response = await logoutApi().unwrap();
-            console.log('Logout API call successful');
             showNotification.success(response);
             logout();
         } catch (error) {
-            console.error('Logout failed:', error);
             showNotification.error(error);
         }
     };
