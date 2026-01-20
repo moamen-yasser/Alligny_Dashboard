@@ -18,7 +18,7 @@ export default function SharedTabs({
                 defaultValue={defaultValue}
                 variant={variant}
             >
-                <Tabs.List className="!flex !flex-col !items-start !gap-4">
+                <Tabs.List className={`!flex ${orientation === "horizontal" ? "!flex-row" : "!flex-col"} !items-start !gap-4`}>
                     {tabValues?.map((tab) => (
                         <Tabs.Tab
                             key={tab?.id}

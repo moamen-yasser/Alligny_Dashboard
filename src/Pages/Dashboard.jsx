@@ -6,7 +6,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useState, useEffect } from 'react';
 import { FaDesktop, FaExclamationCircle } from 'react-icons/fa';
 import NavBar from '../Header/NavBar';
-import { HiOutlineBell, HiOutlineSquaresPlus, HiOutlineUsers, HiOutlineVideoCamera } from 'react-icons/hi2';
+import { HiOutlineBell, HiOutlineSquaresPlus, HiOutlineUsers, HiOutlineVideoCamera, HiOutlineXMark } from 'react-icons/hi2';
 import { useTranslation } from 'react-i18next';
 
 const Dashboard = () => {
@@ -58,30 +58,17 @@ const Dashboard = () => {
         },
     ];
 
-    if (isMobileScreen) {
-        return (
-            <div
-                className="h-screen w-full flex items-center justify-center px-2 bg-[#F8F8F6] dark:bg-slate-900"
-            >
-                <div className='flex flex-col items-center justify-center p-4 sm:p-8 bg-white dark:bg-slate-800 shadow-lg rounded-lg max-w-md mx-auto border border-transparent dark:border-slate-700'>
-                    <Logo />
-                    <FaDesktop size={64} className="text-gray-600 dark:text-slate-400 mt-6" />
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mt-4 text-center">
-                        {t('use_larger_screen')}
-                    </h1>
-                    <p className="text-base sm:text-lg text-gray-600 dark:text-slate-400 max-w-md mt-2 text-center">
-                        {t('larger_screen_desc')}
-                    </p>
-                    <div className='flex items-center gap-2 mt-4'>
-                        <FaExclamationCircle size={20} className="text-yellow-500" />
-                        <p className="text-sm text-gray-500 dark:text-slate-500">
-                            {t('mobile_view_not_supported')}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+    // Remove the mobile block and let the dashboard render
+    // Adjust sidebar state for mobile
+    useEffect(() => {
+        if (isMobileScreen) {
+            setIsSidebarOpen(false);
+        } else if (isSmallScreen) {
+            setIsSidebarOpen(false);
+        } else {
+            setIsSidebarOpen(true);
+        }
+    }, [isMobileScreen, isSmallScreen]);
 
     return (
         <div className="h-screen w-full overflow-hidden">
@@ -108,13 +95,25 @@ const Dashboard = () => {
                             transition-all duration-300 ease-in-out
                         `}
                     >
+                        {isMobileScreen && (
+                            <button
+                                onClick={() => setIsSidebarOpen(false)}
+                                className={`
+                                    absolute top-4 ${isRTL ? 'left-4' : 'right-4'}
+                                    text-white hover:text-gray-200 transition-colors
+                                    p-1 cursor-pointer z-50
+                                `}
+                            >
+                                <HiOutlineXMark size={28} />
+                            </button>
+                        )}
                         <button
                             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                             className={`
                                 absolute top-1/2 transform -translate-y-1/2 z-30
                                 ${isRTL ? '-left-4' : '-right-4'}
                                 bg-[#F8F8F6] dark:bg-slate-800 hover:bg-opacity-90 transition-all duration-300
-                                rounded-full p-2 cursor-pointer shadow-xl flex items-center justify-center
+                                rounded-full p-2 cursor-pointer shadow-xl hidden md:flex items-center justify-center
                             `}
                         >
                             <IoIosArrowBack
@@ -149,10 +148,12 @@ const Dashboard = () => {
                     <NavBar
                         searchQuery={searchQuery}
                         setSearchQuery={setSearchQuery}
+                        setIsSidebarOpen={setIsSidebarOpen}
+                        isSidebarOpen={isSidebarOpen}
                     />
                     <div
                         className={
-                            `flex-1 w-full overflow-y-auto bg-[#F8F8F6] dark:bg-slate-800 transition-all duration-300 ease-in-out p-6`
+                            `flex-1 w-full overflow-y-auto bg-[#F8F8F6] dark:bg-slate-800 transition-all duration-300 ease-in-out p-2 md:p-6`
                         }
                     >
                         <Outlet context={{ setIsSidebarOpen, isSidebarOpen, isMobileScreen, searchQuery }} />

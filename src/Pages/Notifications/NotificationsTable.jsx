@@ -32,7 +32,7 @@ const NotificationsTable = ({
         <div className="bg-white dark:bg-slate-900 rounded-md shadow-sm border border-transparent dark:border-slate-700 overflow-hidden">
             <ScrollArea type="native">
                 <Table
-                    className="text-left px-6 w-full"
+                    className="text-left px-6"
                     verticalSpacing="md"
                     horizontalSpacing="lg"
                     highlightOnHover

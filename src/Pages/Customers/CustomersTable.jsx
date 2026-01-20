@@ -6,6 +6,7 @@ import Loader from "../../Components/Loader";
 import CustomerRow from "./CustomerRow";
 import { CUSTOMER_HEADER_COLUMNS } from "./customersConstants";
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "@mantine/hooks";
 
 const CustomersTable = ({
     isLoading,
@@ -21,6 +22,7 @@ const CustomersTable = ({
 }) => {
     const { t } = useTranslation();
     const translatedHeaders = CUSTOMER_HEADER_COLUMNS.map(header => t(header));
+    const isMobileScreen = useMediaQuery('(max-width: 768px)');
 
     if (isLoading) {
         return (
@@ -40,7 +42,7 @@ const CustomersTable = ({
                     verticalSpacing="md"
                     horizontalSpacing="lg"
                     highlightOnHover
-                    miw={1000}
+                    miw={isMobileScreen ? 1500 : 1000}
                 >
                     <TableHeader headers={translatedHeaders} />
                     <TableBody

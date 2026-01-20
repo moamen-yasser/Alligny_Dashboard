@@ -29,7 +29,7 @@ const VideosHeader = ({ section, onSectionChange, totalCount, onUploadClick }) =
                     color="#50C5C8"
                     radius="md"
                     size="md"
-                    className="!font-bold shadow-sm hover:shadow-md transition-all active:scale-95 hidden sm:flex h-11"
+                    className="!font-bold shadow-sm hover:shadow-md transition-all active:scale-95 flex h-11"
                 >
                     {t('upload_new_video')}
                 </Button>
@@ -46,7 +46,7 @@ const VideosHeader = ({ section, onSectionChange, totalCount, onUploadClick }) =
                         radius="md"
                         className="flex-1 md:flex-none"
                     >
-                        <Tabs.List className="bg-white dark:bg-slate-900 p-1 rounded-md border border-gray-100 dark:border-slate-700 w-full md:w-fit gap-1 h-11 flex items-center">
+                        <Tabs.List className="bg-white dark:bg-slate-900 p-1 rounded-md border border-gray-100 dark:border-slate-700 w-full md:w-fit gap-1 min-h-[44px] flex flex-wrap items-center">
                             <Tabs.Tab value="all" className="dark:hover:bg-slate-800 h-full font-bold px-6 lg:px-8 flex-1 md:flex-none">
                                 {t('all_videos')}
                             </Tabs.Tab>

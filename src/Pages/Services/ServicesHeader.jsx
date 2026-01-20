@@ -34,7 +34,7 @@ const ServicesHeader = ({ status, onStatusChange, totalCount }) => {
                     radius="md"
                     className="w-full md:w-auto"
                 >
-                    <Tabs.List className="bg-white dark:bg-slate-900 p-1 rounded-md border border-gray-100 dark:border-slate-700 w-full md:w-fit gap-1 h-11 flex items-center">
+                    <Tabs.List className="bg-white dark:bg-slate-900 p-1 rounded-md border border-gray-100 dark:border-slate-700 w-full md:w-fit gap-1 min-h-[44px] flex flex-wrap items-center">
                         {STATUS_TABS?.map((tab) => (
                             <Tabs.Tab
                                 key={tab?.value}

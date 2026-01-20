@@ -27,12 +27,12 @@ const FamilyMembersCard = ({ customer }) => {
     return (
         <Card
             shadow="sm"
-            padding="lg"
+            padding={{ base: 4, md: 'lg' }}
             radius="lg"
             withBorder
             className="bg-white dark:bg-slate-900"
         >
-            <Group justify="space-between" mb="md">
+            <Group justify="space-between" mb={{ base: 4, md: 'md' }}>
                 <Group gap="xs">
                     <HiOutlineUsers className="text-main" size={24} />
                     <Text fw={700} size="lg" className="text-slate-800 dark:text-white">
@@ -53,24 +53,24 @@ const FamilyMembersCard = ({ customer }) => {
             {hasMembers ? (
                 <SimpleGrid
                     cols={{ base: 1, sm: 2, md: 3 }}
-                    spacing="lg"
+                    spacing={{ base: 'xs', md: 'lg' }}
                 >
                     {familyMembers.map((member) => (
                         <Card
                             key={member.id}
-                            padding="md"
+                            padding={{ base: 4, md: 'md' }}
                             radius="md"
                             withBorder
                             className="bg-slate-50 dark:bg-slate-800/50 hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
                         >
-                            <Group gap="md" wrap="nowrap" align="center">
+                            <Group gap={{ base: 'xs', md: 'md' }} wrap="nowrap" align="center">
                                 {/* Member Image/Avatar - Left Side */}
                                 <div className="flex-shrink-0">
                                     {member.profileImageUrl ? (
                                         <Image
                                             src={member.profileImageUrl}
-                                            h={80}
-                                            w={80}
+                                            h={{ base: 50, md: 80 }}
+                                            w={{ base: 50, md: 80 }}
                                             fit="cover"
                                             radius="xl"
                                             alt={member.name}
@@ -79,10 +79,10 @@ const FamilyMembersCard = ({ customer }) => {
                                         />
                                     ) : (
                                         <Avatar
-                                            size={80}
+                                            size="custom"
                                             radius="xl"
                                             color="main"
-                                            className="shadow-sm border-2 border-white dark:border-slate-700 group-hover:scale-110 transition-transform duration-300"
+                                            className="shadow-sm border-2 border-white dark:border-slate-700 group-hover:scale-110 transition-transform duration-300 w-[50px] h-[50px] md:w-[80px] md:h-[80px]"
                                         >
                                             {getMemberInitials(member.name)}
                                         </Avatar>

@@ -71,6 +71,7 @@ const CustomerRow = ({
                         variant="light"
                         color={isSubscribed ? "green" : "gray"}
                         size="lg"
+                        className="min-w-[100px] justify-center"
                         leftSection={isSubscribed ? <HiOutlineCheckCircle size={14} /> : <HiOutlineClock size={14} />}
                     >
                         {isSubscribed ? t('active') : t('inactive')}

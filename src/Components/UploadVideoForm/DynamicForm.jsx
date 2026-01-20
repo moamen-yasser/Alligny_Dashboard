@@ -60,7 +60,7 @@ const DynamicForm = ({
                 })}
             </div>
 
-            <div className="w-full flex items-center justify-center py-3 gap-3">
+            <div className="w-full flex flex-col md:flex-row items-center justify-center py-3 gap-3">
                 <Button
                     type="button"
                     variant="outline"

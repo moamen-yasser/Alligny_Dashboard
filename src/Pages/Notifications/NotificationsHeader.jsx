@@ -35,7 +35,7 @@ const NotificationsHeader = ({ totalCount, onAddClick, role, onRoleChange }) => 
                     color="#50C5C8"
                     radius="md"
                     size="md"
-                    className="!font-bold shadow-sm hover:shadow-md transition-all active:scale-95 hidden sm:flex h-11"
+                    className="!font-bold shadow-sm hover:shadow-md transition-all active:scale-95 flex h-11"
                 >
                     {t('add_notification')}
                 </Button>
@@ -52,7 +52,7 @@ const NotificationsHeader = ({ totalCount, onAddClick, role, onRoleChange }) => 
                         radius="md"
                         className="flex-1 md:flex-none"
                     >
-                        <Tabs.List className="bg-white dark:bg-slate-900 p-1 rounded-md border border-gray-100 dark:border-slate-700 w-full md:w-fit gap-1 h-11 flex items-center">
+                        <Tabs.List className="bg-white dark:bg-slate-900 p-1 rounded-md border border-gray-100 dark:border-slate-700 w-full md:w-fit gap-1 min-h-[44px] flex flex-wrap items-center">
                             {tabs.map((tab) => (
                                 <Tabs.Tab
                                     key={tab.value}

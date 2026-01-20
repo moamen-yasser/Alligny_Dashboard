@@ -18,7 +18,7 @@ const CustomerHeader = ({
     const isAr = i18n.language === 'ar';
 
     return (
-        <Group justify="space-between" mb="xl">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
             <Stack gap={4}>
                 <Group gap="xs">
                     <ActionIcon
@@ -83,7 +83,7 @@ const CustomerHeader = ({
                     </ActionIcon>
                 </Tooltip>
             </Group>
-        </Group>
+        </div>
     );
 };
 

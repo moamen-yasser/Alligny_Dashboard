@@ -50,7 +50,7 @@ const CustomerDetails = () => {
     }
 
     return (
-        <Container size="xl" py={0}>
+        <Container fluid px={0} size="xl" py={0}>
             {/* Header Section */}
             <CustomerHeader
                 customer={customer}
@@ -64,7 +64,7 @@ const CustomerDetails = () => {
             />
 
             {/* Main Content Grid */}
-            <Grid gutter="xl" mb="xl" align="stretch">
+            <Grid gutter={{ base: 'md', md: 'xl' }} mb="xl" align="stretch">
                 {/* Left Column - Profile Card */}
                 <Grid.Col span={{ base: 12, md: 5, lg: 4 }}>
                     <CustomerProfileCard customer={customer} />

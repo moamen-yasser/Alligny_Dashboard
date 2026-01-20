@@ -43,7 +43,7 @@ const ServiceDetails = () => {
     if (!service) return <NotFound />;
 
     return (
-        <Container size="xl" py={0}>
+        <Container fluid px={0} size="xl" py={0}>
             {/* Header Section */}
             <ServiceHeader
                 service={service}
@@ -54,7 +54,7 @@ const ServiceDetails = () => {
                 isRejectLoading={isRejectLoading}
             />
 
-            <Grid gutter="xl">
+            <Grid gutter={{ base: 'md', md: 'xl' }}>
                 {/* Left Column - Image and Provider Info */}
                 <Grid.Col span={{ base: 12, md: 4 }}>
                     <Stack gap="lg">

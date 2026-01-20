@@ -6,6 +6,7 @@ import Loader from "../../Components/Loader";
 import ServiceRow from "./ServiceRow";
 import { HEADER_COLUMNS } from "./servicesConstants";
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "@mantine/hooks";
 
 const ServicesTable = ({
     isLoading,
@@ -19,6 +20,7 @@ const ServicesTable = ({
 }) => {
     const { t } = useTranslation();
     const translatedHeaders = HEADER_COLUMNS.map(header => t(header));
+    const isMobileScreen = useMediaQuery('(max-width: 768px)');
 
     if (isLoading) {
         return (
@@ -38,7 +40,7 @@ const ServicesTable = ({
                     verticalSpacing="md"
                     horizontalSpacing="lg"
                     highlightOnHover
-                    miw={1000}
+                    miw={isMobileScreen ? 1500 : 1000}
                 >
                     <TableHeader headers={translatedHeaders} />
                     <TableBody

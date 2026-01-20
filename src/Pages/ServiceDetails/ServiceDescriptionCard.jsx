@@ -25,7 +25,7 @@ const ServiceDescriptionCard = ({ service, specificFields }) => {
     };
 
     return (
-        <Card shadow="sm" padding="xl" radius="lg" withBorder className="bg-white dark:bg-slate-900 border-t-4 border-t-main">
+        <Card shadow="sm" padding={{ base: 'xs', md: 'xl' }} radius="lg" withBorder className="bg-white dark:bg-slate-900 border-t-4 border-t-main">
             <Text fw={800} size="lg" mb="md" className="text-slate-800 dark:text-white flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-main"></span>
                 {t('about_service')}

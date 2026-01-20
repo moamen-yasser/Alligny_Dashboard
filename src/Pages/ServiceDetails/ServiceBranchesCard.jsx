@@ -54,8 +54,8 @@ const ServiceBranchesCard = ({ service }) => {
                 </Tabs.List>
 
                 {service?.branches?.map((branch) => (
-                    <Tabs.Panel key={branch.id} value={branch.id} p="xl">
-                        <Grid gutter="xl">
+                    <Tabs.Panel key={branch.id} value={branch.id} p={{ base: 'xs', md: 'xl' }}>
+                        <Grid gutter={{ base: 'md', md: 'xl' }}>
                             <Grid.Col span={{ base: 12, sm: 7 }}>
                                 <Stack gap="md">
                                     <div>
