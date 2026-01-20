@@ -4,6 +4,7 @@ import { MdContentCopy } from "react-icons/md";
 import { notifications } from "@mantine/notifications";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
+import { formatDateTime } from "../../utils/formatDateTime";
 
 const CustomerProfileCard = ({ customer }) => {
     const { t, i18n } = useTranslation();

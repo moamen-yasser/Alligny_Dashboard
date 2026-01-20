@@ -1,7 +1,7 @@
 import { Card, Text, Badge, Group, Stack, Progress, ActionIcon } from "@mantine/core";
 import { HiOutlineCalendarDays, HiOutlineCheckCircle, HiOutlineClock, HiOutlineXCircle } from "react-icons/hi2";
-import { formatDateTime } from "../../utils/formatDateTime";
 import { useTranslation } from "react-i18next";
+import { formatDateTime } from "../../utils/formatDateTime";
 
 const CustomerSubscriptionCard = ({ customer, className = "" }) => {
     const { t, i18n } = useTranslation();
