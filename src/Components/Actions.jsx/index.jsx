@@ -1,4 +1,5 @@
 import { Button, Tooltip, Group } from "@mantine/core";
+import { t } from "i18next";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 
 const TableActions = ({
@@ -13,7 +14,7 @@ const TableActions = ({
 
     return (
         <Group gap="xs" justify="center" wrap="nowrap">
-            <Tooltip label="Approve" position="top" withArrow disabled={isApproved}>
+            <Tooltip label={t('approve')} position="top" withArrow disabled={isApproved}>
                 <Button
                     variant="transparent"
                     className={`!p-0 !min-w-fit !h-fit transition-transform !bg-transparent 
@@ -27,7 +28,7 @@ const TableActions = ({
                 </Button>
             </Tooltip>
 
-            <Tooltip label="Reject" position="top" withArrow disabled={isRejected}>
+            <Tooltip label={t('reject')} position="top" withArrow disabled={isRejected}>
                 <Button
                     variant="transparent"
                     className={`!p-0 !min-w-fit !h-fit transition-transform !bg-transparent

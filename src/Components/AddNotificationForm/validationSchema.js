@@ -8,7 +8,7 @@ export const getAddNotificationValidationSchema = (t) => yup.object().shape({
     message: yup.string()
         .required(t('message_required'))
         .min(5, t('message_min', { count: 5 }))
-        .max(200, t('message_max', { count: 200 })),
+        .max(2000, t('message_max', { count: 2000 })),
     target: yup.string()
         .required(t('target_required')),
 });
