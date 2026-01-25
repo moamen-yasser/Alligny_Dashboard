@@ -1,6 +1,6 @@
-import { providerBaseApi } from '../providerBaseApi';
+import { oldProviderBaseApi } from "../oldProviderBaseApi";
 
-export const videosApi = providerBaseApi.injectEndpoints({
+export const videosApi = oldProviderBaseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllVideos: builder.query({
             query: (params) => ({
